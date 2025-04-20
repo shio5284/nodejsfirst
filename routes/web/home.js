@@ -1,8 +1,8 @@
 var  express = require("express");
 var router  =express.Router();
 var passport =require("passport")
-
-
+var bodyParser = require("body-parser");
+var User = require ("../../models/user");
 
 //to do add in  error and info
 //router.use("/",require ("./home"));
@@ -11,30 +11,99 @@ router.get("/",function(req, res){
     res.render("Home/index");
 });
 router.get("/home",function(req, res){
-res.render("Home/home");
+    console.log("you hit home")
+    res.render("Home/home");
 });
-  
+ 
 router.get("/about",function(req, res){
+
     res.render("Home/about");
     });
-
-    router.get("/login",function(req, res){
+router.get("/login",function(req, res){
+        console.log("you hit get log in")
         res.render("Home/login");
         });
 
-        router.get("/signup",function(req, res){
+
+        router.post("/login" ,passport.authenticate("login",{
+            successRedirect:"/",
+            failureRedirect:"/login",
+            failureFlash:true
+          }));
+
+         /*  router.get("/logout",function(req, res){
+           
+           req.logout();
+
+            res.redirect("/");
+            }); */
+
+
+
+            router.get('/logout', function(req, res, next) {
+                req.logout(function(err) {
+                  if (err) { return next(err); }
+                  res.redirect('/');
+                });
+              });
+
+
+router.get("/signup",function(req, res){
+            console.log("you hit get sign up");
+            console.log(User);
             res.render("Home/signup");
             });
 
+          /*   router.post("/signup",function(req, res){
 
+              var username = req.body.username;
+              var email = req.body.email;
+              var password = req.body.password;
+              console.log(username);
+              res.render("Home/signup");
+              }); */
+  
 
-            router.post("/signup",function*(req,res,next){
+router.post("/signup",function(req,res,next)
+{
+             
+    var username = req.body.username;
+    var email = req.body.email;
+    var password = req.body.password;
+            
+                   
+    User.findOne({ email: email})
+      .then(user => {
+          if (user) {
+              console.log('User found:', user);
+              req.flash("error", "There already an account with this email");
+              return res.redirect ("/signup");
+        
+           }
+            else {
 
-                var username = req.body.username;
-                    var email = req.body.email;
-                    var password = req.body.password;
+          var newUser =new User ({
+          username:username,
+          password:password,
+          email:email
+          });
+          newUser.save();
+          return res.redirect ("/");
+         //next();
+         
+         /*passport.authenticate("login",{
+          successRedirect:"/",
+          failureRedirect:"/",
+          failureFlash:true
+        });*/
+            }
+          })
+          .catch(error => {
+          console.error('Error finding user:', error);
+          }); 
                 
-                    User.findOne({email}, function (err,user){
+
+              /*   User.findOne({email}, function (err,user){
                 
                         if(err){ return next (err); }
                         if(user){
@@ -49,11 +118,13 @@ router.get("/about",function(req, res){
                         newUser.save(next);
                 
                     });
-                 
-                
-                },  passport.authenticate("login",{
-                    successRedirect:"/",
-                    failureRedirect:"/sigmup",
-                    failureFlash:true
-                }));
+                  */
+              
+                });
+
+               /* passport.authenticate("login",{
+                  successRedirect:"/",
+                  failureRedirect:"/signup",
+                  failureFlash:true*/
+              
 module.exports = router;

@@ -17,7 +17,7 @@ var app = express();
  mongoose.connect(params.DATABASECONNECTION).
   catch(error => handleError(error)); 
 
- //setUpPassport();
+ setUpPassport();
 
 /*   async
 
@@ -52,11 +52,11 @@ const emp = new Model({
 emp.save(); */
 
 
-app.set("port",process.env.PORT||3000);
+app.set("port",process.env.PORT||3001);
 app.set("views",path.join(__dirname, "views"));
 app.set("view engine",'ejs');
 
-/* app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(session({
   secret:"jlssjljsljs",
@@ -66,7 +66,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash()); */
+app.use(flash()); 
 
 
 

@@ -17,13 +17,13 @@ router.get("/register",function(req, res){
 res.render("Home/register");
 });
 
-router.post("/register",function*(req,res,next){
+router.post("/signup",function*(req,res,next){
 
 var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
 
-    User.findOne({email}, function (err,user){
+ /*    User.findOne({email}, function (err,user){
 
         if(err){ return next (err); }
         if(user){
@@ -37,8 +37,25 @@ var username = req.body.username;
         });
         newUser.save(next);
 
-    });
+    }); */
  
+    User.findOne({ email: email})
+    .then(user => {
+      if (user) {
+        console.log('User found:', user);
+      } else {
+        console.log('User not found');
+      }
+    })
+    .catch(error => {
+      console.error('Error finding user:', error);
+    });
+/* .catch(error => {
+  console.error('Error connecting to MongoDB:', error);
+}); */
+
+
+    
 
 },  passport.authenticate("login",{
     successRedirect:"/",

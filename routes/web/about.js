@@ -11,6 +11,7 @@ router.get("/",function(req, res){
     res.render("Home/index");
 });
 router.get("/about",function(req, res){
+    console.log("you hit about");
 res.render("Home/about");
 });
 
