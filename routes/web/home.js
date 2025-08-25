@@ -20,7 +20,7 @@ router.get("/about",function(req, res){
     res.render("Home/about");
     });
 router.get("/login",function(req, res){
-        console.log("you hit get log in")
+      
         res.render("Home/login");
         });
 
@@ -29,14 +29,7 @@ router.get("/login",function(req, res){
             successRedirect:"/",
             failureRedirect:"/login",
             failureFlash:true
-          }));
-
-         /*  router.get("/logout",function(req, res){
-           
-           req.logout();
-
-            res.redirect("/");
-            }); */
+          }));   
 
 
 
@@ -49,19 +42,11 @@ router.get("/login",function(req, res){
 
 
 router.get("/signup",function(req, res){
-            console.log("you hit get sign up");
-            console.log(User);
+            
             res.render("Home/signup");
             });
 
-          /*   router.post("/signup",function(req, res){
-
-              var username = req.body.username;
-              var email = req.body.email;
-              var password = req.body.password;
-              console.log(username);
-              res.render("Home/signup");
-              }); */
+      
   
 
 router.post("/signup",function(req,res,next)
@@ -74,57 +59,51 @@ router.post("/signup",function(req,res,next)
                    
     User.findOne({ email: email})
       .then(user => {
-          if (user) {
-              console.log('User found:', user);
-              req.flash("error", "There already an account with this email");
-              return res.redirect ("/signup");
-        
-           }
-            else {
+                  if (user) {
+                            req.flash("error", "There already an account with this email");
+                            return res.redirect ("/signup");
+                          }
+                  else {
+                      var newUser =new User ({
+                      username:username,
+                      password:password,
+                      email:email
+                       });
+                        
 
-          var newUser =new User ({
-          username:username,
-          password:password,
-          email:email
-          });
-          newUser.save();
-          return res.redirect ("/");
-         //next();
-         
-         /*passport.authenticate("login",{
-          successRedirect:"/",
-          failureRedirect:"/",
-          failureFlash:true
-        });*/
-            }
+                       async function f() {
+
+  try {
+    let response = await newUser.save()
+
+ next();
+  } catch(err) {
+    // catches errors both in fetch and response.json
+    console.log(err);
+  }
+}
+
+f();
+
+
+
+                      }
           })
+        
+          
+
           .catch(error => {
           console.error('Error finding user:', error);
           }); 
                 
-
-              /*   User.findOne({email}, function (err,user){
                 
-                        if(err){ return next (err); }
-                        if(user){
-                            req.flash("error", "There already an account with this email");
-                            return res.redirect ("/register");
-                        } 
-                        var newUser =new User ({
-                            username:username,
-                            password:password,
-                            email:email
-                        });
-                        newUser.save(next);
-                
-                    });
-                  */
-              
-                });
-
-               /* passport.authenticate("login",{
+                    
+} ,passport.authenticate("login",{
                   successRedirect:"/",
                   failureRedirect:"/signup",
-                  failureFlash:true*/
+                  failureFlash:true
+                }) );
+
+   
               
 module.exports = router;

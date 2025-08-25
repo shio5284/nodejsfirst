@@ -31,7 +31,7 @@ passport.use("login", new localStrategy({
 
 
 console.log(email);
-
+console.log(password);
 
 User.findOne({ email: email})
 .then(user => {

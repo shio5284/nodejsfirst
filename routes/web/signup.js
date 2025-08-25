@@ -55,10 +55,10 @@ var username = req.body.username;
 }); */
 
 
+
     
 
-},  passport.authenticate("login",{
-    successRedirect:"/",
-    failureRedirect:"/sigmup",
-    failureFlash:true
-}));
+}, passport.authenticate("login",{
+  successRedirect:"/",
+  failureRedirect:"/sigmup",
+  failureFlash:true }));
