@@ -1,0 +1,35 @@
+<%- include('../_partial/_header.ejs') %>
+
+
+<div class="row">
+    <div class="col-md-6">
+            Welcome To Add Post
+    </div>
+</div>
+
+<div class="row">
+<div class="col-md-6">
+
+
+    <form action "/posts/add" method="POST">
+        <div class="form-group">
+            <label for ="inputTitle">Title</label>
+            <input type="text" class="form-control" placeholder="Title" id="inputTitle" name="title">
+        </div>
+
+        <div class="form-group">
+            <label for ="inputContent">Content</label>
+            <textarea class="form-control" placeholder="Content" rows="3" name="content"></textarea>
+        </div>
+
+
+         <div class="form-group">
+              <button type="submit" class="btn btn-lg btn-primary btn=-block">Create </button>
+        </div>
+    </form>
+  </div>
+
+</div>
+
+         
+<%- include('../_partial/_footer.ejs') %>

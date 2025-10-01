@@ -3,6 +3,8 @@ var router  =express.Router();
 var passport =require("passport")
 var bodyParser = require("body-parser");
 var User = require ("../../models/user");
+//const { ensureAuthenticated } = require("../../auth/auth");
+var ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
 
 //to do add in  error and info
 //router.use("/",require ("./home"));
@@ -19,6 +21,9 @@ router.get("/about",function(req, res){
 
     res.render("Home/about");
     });
+
+
+    
 router.get("/login",function(req, res){
       
         res.render("Home/login");
