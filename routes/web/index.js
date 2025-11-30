@@ -14,6 +14,7 @@ router.use(function(req,res,next ){
 });
 router.use("/",require("./home"));
 router.use("/posts",require("./post"));
+router.use("/personalInfo",require("./personalInfo"));
 //to do add in  error and info
 
 /* router.get("/",function(req, res){

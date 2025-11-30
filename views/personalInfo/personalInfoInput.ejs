@@ -1,0 +1,89 @@
+<%- include('../_partial/_header.ejs') %>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Personal Information</h3>
+    </div>
+  </div>
+
+  <form action="personalInfo/saveperson" method="post">
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label for="lastname" class="sr-only mt-md-3">Lastname</label>
+        <input type="input" class="form-control" name="lastname" placeholder="Lastname">
+
+      </div>
+      <div class="form-group col-md-4">
+        <label for="exampleInputEmail1" class="sr-only mt-md-3">Firstname </label>
+        <input type="input" class="form-control" name="firstname" placeholder="Firstname" >
+
+      </div>
+
+      <div class="form-group col-md-3">
+        <label for="middlename" class="sr-only mt-md-3">Middlename</label>
+        <input type="input" class="form-control" name="middlename" placeholder="Middlename" >
+
+      </div>
+
+      <div class="form-group col-md-1">
+        <label for="suffix" class="sr-only mt-md-3">Extension</label>
+        <input type="input" class="form-control" name="suffix" placeholder="ext">
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col">
+        <label for="bday" class="sr-only mt-md-3">Birthdate</label>
+        <input type="date" class="form-control" name="bday">
+      </div>
+      <div class="form-group col">
+        <label for="Gender" class="sr-only mt-md-3">Gender</label>
+        <select class="form-control" name="gender" id="pet-select">
+          <option value="">---select gender-- </option>
+          <option value="Male" >Male</option>
+   
+          <option value="Female" >Female</option>
+        </select>
+      </div>
+
+
+    </div>
+
+    s
+    <div class="row">
+      <div class="form-group col">
+        <label for="Bday" class="sr-only mt-md-3">Designation </label>
+        <select class="form-control" name="designation" id="pet-select">
+          <option value="">---select designation-- </option>
+          <% designations.forEach(function(designation){ %>
+            <option value="<%= designation._id %>" >
+              <%=designation.designationDesc %>
+            </option>
+
+
+            <% })%>
+
+        </select>
+      </div>
+      <div class="form-group col">
+        <label for="password" class="sr-only mt-md-3">Department</label>
+        <select class="form-control" name="department" id="pet-select">
+          <option value="">---select department-- </option>
+          <% departments.forEach(function(department){ %>
+            <option value="<%=department._id %>" >
+
+              <%= department.description %>
+                          
+            </option>
+
+
+            <% })%>
+        </select>
+      </div>
+
+
+    </div>
+    <div class="form-group col sr-only mt-md-3">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>

@@ -23,20 +23,19 @@ var upload = multer({storage:storage})
 
 router.use(ensureAuthenticated)
 
-router.get("/" ,function(req, res){
+router.get("/" ,async function(req, res){
 
-async  function findpost(posts){
 
-  posts =  await Post.find({userID:req.user._id}).exec({
+ var  posts =  await Post.find({userID:req.user._id}).exec({
     if (err){console.log(err);}
   })
   console.log(posts);
       res.render("post/posts",{posts:posts});
       }
     
-    findpost();
+  
      //res.render("post/posts",{posts:posts});
-    });
+    );
 
       router.get("/add",function(req, res){
 

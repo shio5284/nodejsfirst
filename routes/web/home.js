@@ -17,6 +17,11 @@ router.get("/home",function(req, res){
     res.render("Home/home");
 });
  
+//router.get("/personalInfo",function(req, res){
+   
+   // res.render("personalinfo/personalInfo");
+//});
+
 router.get("/about",function(req, res){
 
     res.render("Home/about");
@@ -72,7 +77,8 @@ router.post("/signup",function(req,res,next)
                       var newUser =new User ({
                       username:username,
                       password:password,
-                      email:email
+                      email:email,
+                      personId:null
                        });
                         
 

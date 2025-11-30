@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>Node tutorial</title>
+    <title>ATI Procurement System</title>
     <!-- <link rel ="stylesheet" href="main.scss" >-->
 
   <!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
    -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+ <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
+  <link href="/uploads\css\bootstrap.css" rel="stylesheet">
+   <link href="/uploads\css\style.css" rel="stylesheet">
+  
   </head>
 
 <body>
 <div class="container">
 
-
+<img src="/uploads\images\HEADER_WEBSITE_5.png"
+    style="height: 150px; width: 100%; display: block"
+        >
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" href="#">Hidden brand</a>
+        <a class="navbar-brand" href="#"><H3 >ATI PROCUREMENT SYSTEM</H3></a>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link active" aria-current="page" href="/home">Home</a></li> 
           <li class="nav-item"><a class="nav-link" href="/about">About</a> </li>
@@ -29,6 +35,10 @@
         <li class="nav-item"><a class="nav-link" href="/posts">My Posts</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Welcome <%=currentUser.username%>!</a></li>
             <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+        <%}%>
+        <% if (currentUser!=null){%>
+        <li class="nav-item"><a class="nav-link" href="/personalInfo">Personal information</a></li>
+           
         <%}%>
         <% if (currentUser ==null){%>
           <li class="nav-item"><a class="nav-link" href="/login">Log In</a> </li>

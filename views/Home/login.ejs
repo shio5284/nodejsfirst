@@ -1,13 +1,13 @@
 <%- include('../_partial/_header.ejs') %>
-<h1> Welcome Login</h1>
-<div class="text-center mt-5">
 
-  <form style="max-width: 480px;margin: auto; " action="/login" method="post">
-  <img class="mt-4" src="">
-  <H1 class="h3 mb-3 font-weight-normal"> Please Sign in</H1>
-<label for = "username" class="sr-only"> User Name</label>
-<input type="email" name="email" class="form-control" placeholder="Email Address" required autofocus>
-<label for = "password" class="sr-only"> Password</label>
+<div class="text-right mt-8 align-right">
+
+  <form style="max-width: 100%;margin: right; " action="/login" method="post">
+ 
+  <H3 class="h3 mb-3 font-weight-normal"> Please log in</H3>
+<label for = "username" class="sr-only mt-md-3"> User Name</label>
+<input type="email"  name="email" pt="8" class="form-control " placeholder="User name" required autofocus>
+<label style for = "password" class="sr-only mt-md-3"> Password</label>
 <input type="password" name="password" class="form-control" placeholder="Password" >
 <div class="checkbox">
   <label>
