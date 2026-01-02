@@ -30,20 +30,20 @@ passport.use("login", new localStrategy({
 }, function(email,password,done){
 
 
-console.log(email);
-console.log(password);
+/* console.log(email);
+console.log(password); */
 
 User.findOne({ email: email})
 .then(user => {
   if (user) {
-    console.log('User found:', user);
+    //console.log('User found:', user);
     user.checkPassword(password, function(err,isMatch){
         if(err){return done(err);}
         if (isMatch){
-            console.log('sucees');
+           // console.log('sucees');
             return done(null,user);
         } else{
-            console.log('invaled pasw');
+           // console.log('invaled pasw');
             return done(null,false,{message:"Invalid password"});
         }
     })

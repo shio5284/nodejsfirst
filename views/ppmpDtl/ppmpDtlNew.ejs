@@ -1,0 +1,106 @@
+<!-- <%- include('../ppmp/ppmp.ejs') %> -->
+
+<hr style="height:20px;border-width:0;color:gray;background-color:gray">
+
+
+<h2>PPMP list new</h2>
+
+
+
+
+<form action=/ppmpDtl/savePpmpDtl method="post">
+    <div class="row">
+        <div class="form-group col-md-8">
+            <label for="lastname" class="sr-only mt-md-3">General Description</label>
+            <input type="text" class="form-control" name="generalDescName" placeholder="General Description of PPMP"
+                value="">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Category" class="sr-only mt-md-3">Category</label>
+            <select class="form-control" name="ppmpCategory" id="Category">
+                <option value="">Select Category</option>
+                <option value="Goods">Goods</option>
+                <option value="Infrastructure Project">Infrastructure Project</option>
+                <option value="Consulting Services">Consulting Services</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="Gender" class="sr-only mt-md-4">Quantity</label>
+            <input type="input" class="form-control" name="quantity">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="bday" class="sr-only mt-md-4">Unit Of Measurement</label>
+            <select class="form-control" name="unitOfMeasurement" id="unitOfMeasurement">
+                <option value=""> </option>
+                <% unitOfMeasurements.forEach(function(unitOfMeasurement){ %>
+                    <option value="<%=unitOfMeasurement._id %>"
+                        <%="seletedDepartmentDecs"===unitOfMeasurement.unitOfMeasurementDesc? "selected" : "" %>>
+                        <%= unitOfMeasurement.unitOfMeasurementDesc %>
+                    </option>
+                    <% })%>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="bday" class="sr-only mt-md-4">Procurement Mode</label>
+            <select class="form-control" name="procMode" id="Category">
+                <option value=""> </option>
+                <% procModes.forEach(function(procMode){ %>
+                    <option value="<%=procMode._id %>" <%="seletedDepartmentDecs"===procMode.procModeDesc? "selected"
+                        : "" %>>
+                        <%=procMode.procModeDesc %>
+                    </option>
+                    <% })%>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="startProc" class="sr-only mt-md-3">Start Of Procurement Activity </label>
+            <input type="date" class="form-control" name="startProc">
+        </div>
+        <div class="form-group col">
+            <label for="endProc" class="sr-only mt-md-3">End Of Procurement Activity </label>
+            <input type="date" class="form-control" name="endProc">
+        </div>
+        <div class="form-group col">
+            <label for="expectedDelivery" class="sr-only mt-md-3">Expected Date of Delivery</label>
+            <input type="date" class="form-control" name="expectedDelivery">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label for="Bday" class="sr-only mt-md-3">Source Of Fund </label>
+            <input type="input" class="form-control" name="sourceOfFound">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="Bday" class="sr-only mt-md-3">Estimated Budget </label>
+            <input type="input" class="form-control" name="estimatedBudget">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Bday" class="sr-only mt-md-3">Attached Supporting Documents</label>
+            <input type="input" class="form-control" name="attachedSupportingDocs">
+        </div>
+    </div>
+    
+
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="Bday">Remarks </label>
+                <input type="input" class="form-control" name="remarks" value="">
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="form-group col sr-only mt-md-3">
+
+                <button type="submit" class="btn btn-primary"> Save PPMP </button>
+            </div>
+        </div>
+        <input type="hidden" id="ppmphdrId" name="hiddenppmphdrIdnew" value="<%= selectedValue %>">
+</form>

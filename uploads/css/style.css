@@ -1,3 +1,21 @@
 body{
     background-color: rgb(221, 243, 243);
 }
+
+ .modal-dialog {
+  background-color: brown;
+  max-width: 90%; 
+  /* height: 90%;  */
+  margin: 0;
+  top: 20px;
+  left: 60px;
+  
+
+}  
+
+
+table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    .excluded { background-color: #f5c6cb; }
+    .pagination a { margin: 0 5px; }
+

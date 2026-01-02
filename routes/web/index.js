@@ -15,6 +15,9 @@ router.use(function(req,res,next ){
 router.use("/",require("./home"));
 router.use("/posts",require("./post"));
 router.use("/personalInfo",require("./personalInfo"));
+router.use("/ppmp",require("./ppmp"));
+router.use("/ppmpDtl",require("./ppmpdtl"));
+router.use("/procapp",require("./procapp"));
 //to do add in  error and info
 
 /* router.get("/",function(req, res){

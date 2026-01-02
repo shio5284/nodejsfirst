@@ -1,0 +1,411 @@
+<%- include('../_partial/_header.ejs') %>
+
+
+
+
+
+                                                                                                                                                     
+  <div class="row" style="padding-top: 20px">
+    <div class="col-md-6">
+      <h4>Project Porcurement Management Plan</h4>
+    </div>
+  </div>
+
+
+  <div style="background-color:aliceblue; padding: 15px 20px 10px 20px; ">
+    <form action="/ppmp" method="POST" >
+      <div class="row" style="text-align: center;">
+            
+       </div>
+
+ <div class="row"> 
+      <div class="form-group col-md-5">
+        <label for="ppmpselect" class="sr-only mt-md-12"  style="font-size: larger; font-weight: 500; text-align: left;"> PPMP for <%=departmentdesc %>   </label>
+        <select class="form-control" name="designation"  onchange="this.form.submit()"> 
+            
+                   <option value =null >select pppmp </option>
+                    <% ppmpHdrs.forEach(function(ppmpHdr){ %>                      
+              <option  value= "<%=ppmpHdr.id%>"<%= selectedValue ==ppmpHdr.id ? "selected" : "" %>  > <%= ppmpHdr.fiscalYear %> </label>     &nbsp;&nbsp;&nbsp   Type - <%= ppmpHdr.ppmpType %></a></option>
+              
+                 <% })%> 
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        
+      </div>
+
+      <div class="form-group col-md-2">
+        <label for="ppmpselect" class="sr-only mt-md-12"  style="font-size: larger; font-weight: 500; text-align: left;">Deault Fiscal year   </label>
+        <select class="form-control" name="defaultFiscalYear"  "> 
+             <!--  <select class="form-control" name="mySelect" id="mySelect"> -->
+                   <option>2026 </option>
+                   <option>2027 </option>
+                   <option>2028 </option>
+        </select>
+      </div>
+
+
+
+    
+      </div>
+
+
+    <div class="row">
+
+<div class="form-group col sr-only mt-md-12" style="text-align: center; padding-top: 20px;">
+       
+      
+        <input type="hidden" id="departmentId" name="hiddepartmentId" value = "<%= departmentId %>">
+  <input type="hidden" id="personId" name="hidpersonId" value = "<%= personId %>">
+    </div>
+</div>
+
+
+
+    </form>
+<a  href="/ppmp/createppmphdr"><button type="button"  class="btn btn-primary" >Create PPMP Header</button></a>
+
+
+  </div> 
+                     
+<hr style="height:20px;border-width:0;color:gray;background-color:gray" >
+
+
+
+
+
+  
+
+  <h2>PPMP Details</h2>
+<form action="/ppmpDtl/new" method="POST" style="display:inline">
+       <p>No PPMP yet.   <button  class="btn btn-primary" type="submit" onclick="this.form.submit()">Create PPMP details</button></p>
+           <input type="hidden" id="ppmphdrId" name="hiddenppmphdrId" value = "<%= selectedValue %>">
+        </form>
+<div>
+
+  <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+  Add Employee
+</button>
+<table>
+  <thead>
+<tr>
+  <th>General Desc</th>
+  <th>Category</th>
+  <th>Quantity</th>
+  <th>Source Of Fund </th>
+  <th>Estimated Budget</th>
+  <th>Atched Supporting Doc</th>
+  <th>Remarks</th>
+  <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<% ppmpDtls.forEach(ppmpDtl => { %>
+<tr>
+  <td><%= ppmpDtl.generalDescName %></td>
+  <td><%= ppmpDtl.procLawCategoryId %></td>
+  <td><%= ppmpDtl.quantity %></td>
+  <td><%= ppmpDtl.sourceOfFund %></td>
+  <td><%= ppmpDtl.estimatedBudget %></td>
+  <td><%= ppmpDtl.attachedSupportingDocs %></td>
+  <td><%= ppmpDtl.remarks %></td>
+  <td>
+    <button class="btn btn-warning btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#editModal-<%= ppmpDtl._id %>">
+            Edit
+          </button>
+    <button class="btn btn-danger btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal-<%= ppmpDtl._id %>">
+            Delete
+          </button>
+  </td>
+</tr>
+
+     <div class="modal fade" id="editModal-<%= ppmpDtl._id %>">
+        <div class="modal-dialog">
+          <form method="POST" action="/employees/<%= ppmpDtl._id %>?_method=PUT" class="modal-content">
+            <div class="modal-header">
+              <h5>Edit PPMP</h5>
+            </div>
+            <form method="POST" action="/employees" class="modal-content">
+      <div class="modal-header">
+        <h5>Add Employee</h5>
+      </div>
+      <div class="modal-body">
+       <div class="row">
+            <div class="form-group col-md-8">
+                <label for="lastname" class="sr-only mt-md-3">General Description</label>
+                <input type="text" class="form-control" name="generalDescName" placeholder="General Description of PPMP"
+                    value="">
+            </div>
+             <div class="form-group col-md-4">
+               <label for="Category" class="sr-only mt-md-3">Category</label>
+                <select class="form-control" name="ppmpCategory" id="Category">
+                    <option value="">Select Category</option>
+                    <option value="Goods">Goods</option>
+                    <option value="Infrastructure Project">Infrastructure Project</option>
+                    <option value="Consulting Services">Consulting Services</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row">
+           
+            <div class="form-group col-md-4">
+                <label for="Gender" class="sr-only mt-md-4">Quantity</label>
+                 <input type="input" class="form-control" name="quantity" >
+            </div>
+            <div class="form-group col-md-4">
+                <label for="bday" class="sr-only mt-md-4">Unit Of Measurement</label>
+               <select class="form-control" name="unitOfMeasurement" id="unitOfMeasurement">
+                    <option value=""> </option>
+                   <% unitOfMeasurements.forEach(function(unitOfMeasurement){ %>
+            <option value="<%=unitOfMeasurement._id %>" 
+              <%="seletedDepartmentDecs"===unitOfMeasurement.unitOfMeasurementDesc? "selected" : "" %>>
+
+              <%= unitOfMeasurement.unitOfMeasurementDesc %>  
+                          
+            </option>
+
+
+            <% })%>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="bday" class="sr-only mt-md-4">Procurement Mode</label>
+                <select class="form-control" name="procMode" id="Category">
+                    <option value=""> </option>
+                      <% procModes.forEach(function(procMode){ %>
+            <option value="<%=procMode._id %>" 
+              <%="seletedDepartmentDecs"===procMode.procModeDesc? "selected" : "" %>>
+
+              <%=procMode.procModeDesc %>
+                          
+            </option>
+
+
+            <% })%>
+                </select>
+            </div>
+
+
+        </div>
+
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="startProc" class="sr-only mt-md-3">Start Of Procurement Activity </label>
+                <input type="date" class="form-control" name="startProc">
+            </div>
+            <div class="form-group col">
+                <label for="endProc" class="sr-only mt-md-3">End Of Procurement Activity </label>
+                <input type="date" class="form-control" name="endProc">
+            </div>
+            <div class="form-group col">
+                <label for="expectedDelivery" class="sr-only mt-md-3">Expected Date of Delivery</label>
+                <input type="date" class="form-control" name="expectedDelivery">
+            </div>
+        </div>
+<div class="row">
+            <div class="form-group col-md-3">
+                <label for="Bday" class="sr-only mt-md-3">Source Of Fund </label>
+                <input type="input" class="form-control" name="sourceOfFound">
+            </div>
+            <div class="form-group col-md-3" >
+                <label for="Bday" class="sr-only mt-md-3">Estimated Budget </label>
+                <input type="input" class="form-control" name="estimatedBudget" >
+            </div>
+            <div class="form-group col-md-6">
+                <label for="Bday" class="sr-only mt-md-3">Attached Supporting Documents</label>
+                <input type="input" class="form-control" name="attachedSupportingDocs">
+            </div>
+
+        </div>
+<div class="row">
+
+
+    <div class="row">
+            <div class="form-group col-md-12">
+                <label for="Bday" >Remarks </label>
+                <input type="input" class="form-control" name="remarks" value="">
+            </div>
+           
+
+        </div>
+<div class="row">
+        <div class="form-group col sr-only mt-md-3">
+
+            <button type="submit" class="btn btn-primary"> Save PPMP </button>
+        </div>
+        </div>
+          <input type="hidden" id="ppmphdrId" name="hiddenppmphdrIdnew" value = "<%= selectedValue %>">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary">Save</button>
+      </div>
+    </form>
+            <div class="modal-footer">
+              <button class="btn btn-success">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- DELETE MODAL -->
+      <div class="modal fade" id="deleteModal-<%= emp._id %>">
+        <div class="modal-dialog">
+          <form method="POST" action="/employees/<%= emp._id %>?_method=DELETE" class="modal-content">
+            <div class="modal-header">
+              <h5>Confirm Delete</h5>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete <strong><%= emp.name %></strong>?
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+
+<% }) %>
+</tbody>
+
+</table>
+
+<div class="modal fade" id="createModal" >
+  <div class="modal-dialog" >
+    <form method="POST" action="/employees" class="modal-content">
+      <div class="modal-header">
+        <h5>Add Employee</h5>
+      </div>
+      <div class="modal-body">
+       <div class="row">
+            <div class="form-group col-md-8">
+                <label for="lastname" class="sr-only mt-md-3">General Description</label>
+                <input type="text" class="form-control" name="generalDescName" placeholder="General Description of PPMP"
+                    value="">
+            </div>
+             <div class="form-group col-md-4">
+               <label for="Category" class="sr-only mt-md-3">Category</label>
+                <select class="form-control" name="ppmpCategory" id="Category">
+                    <option value="">Select Category</option>
+                    <option value="Goods">Goods</option>
+                    <option value="Infrastructure Project">Infrastructure Project</option>
+                    <option value="Consulting Services">Consulting Services</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row">
+           
+            <div class="form-group col-md-4">
+                <label for="Gender" class="sr-only mt-md-4">Quantity</label>
+                 <input type="input" class="form-control" name="quantity" >
+            </div>
+            <div class="form-group col-md-4">
+                <label for="bday" class="sr-only mt-md-4">Unit Of Measurement</label>
+               <select class="form-control" name="unitOfMeasurement" id="unitOfMeasurement">
+                    <option value=""> </option>
+                   <% unitOfMeasurements.forEach(function(unitOfMeasurement){ %>
+            <option value="<%=unitOfMeasurement._id %>" 
+              <%="seletedDepartmentDecs"===unitOfMeasurement.unitOfMeasurementDesc? "selected" : "" %>>
+
+              <%= unitOfMeasurement.unitOfMeasurementDesc %>  
+                          
+            </option>
+
+
+            <% })%>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="bday" class="sr-only mt-md-4">Procurement Mode</label>
+                <select class="form-control" name="procMode" id="Category">
+                    <option value=""> </option>
+                      <% procModes.forEach(function(procMode){ %>
+            <option value="<%=procMode._id %>" 
+              <%="seletedDepartmentDecs"===procMode.procModeDesc? "selected" : "" %>>
+
+              <%=procMode.procModeDesc %>
+                          
+            </option>
+
+
+            <% })%>
+                </select>
+            </div>
+
+
+        </div>
+
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="startProc" class="sr-only mt-md-3">Start Of Procurement Activity </label>
+                <input type="date" class="form-control" name="startProc">
+            </div>
+            <div class="form-group col">
+                <label for="endProc" class="sr-only mt-md-3">End Of Procurement Activity </label>
+                <input type="date" class="form-control" name="endProc">
+            </div>
+            <div class="form-group col">
+                <label for="expectedDelivery" class="sr-only mt-md-3">Expected Date of Delivery</label>
+                <input type="date" class="form-control" name="expectedDelivery">
+            </div>
+        </div>
+<div class="row">
+            <div class="form-group col-md-3">
+                <label for="Bday" class="sr-only mt-md-3">Source Of Fund </label>
+                <input type="input" class="form-control" name="sourceOfFound">
+            </div>
+            <div class="form-group col-md-3" >
+                <label for="Bday" class="sr-only mt-md-3">Estimated Budget </label>
+                <input type="input" class="form-control" name="estimatedBudget" >
+            </div>
+            <div class="form-group col-md-6">
+                <label for="Bday" class="sr-only mt-md-3">Attached Supporting Documents</label>
+                <input type="input" class="form-control" name="attachedSupportingDocs">
+            </div>
+
+        </div>
+<div class="row">
+
+
+    <div class="row">
+            <div class="form-group col-md-12">
+                <label for="Bday" >Remarks </label>
+                <input type="input" class="form-control" name="remarks" value="">
+            </div>
+           
+
+        </div>
+<div class="row">
+        <div class="form-group col sr-only mt-md-3">
+
+            <button type="submit" class="btn btn-primary"> Save PPMP </button>
+        </div>
+        </div>
+          <input type="hidden" id="ppmphdrId" name="hiddenppmphdrIdnew" value = "<%= selectedValue %>">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+</div>
+
+
+
