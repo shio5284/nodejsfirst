@@ -19,11 +19,13 @@ router.use(ensureAuthenticated)
 // first load
 router.get("/", async function (req, res) {
 
+  console.log ("youare in first load"); 
+var ppmpHdrId = null;
 var selectedValue =req.params.postId;
  
 selectedValue != undefined?  selectedValue =req.params.postId: "null";
 
-console.log(selectedValue);
+
  const page = parseInt(req.query.page) || 1;
   const limit = 5; // records per page
   const search = req.query.search || '';
@@ -33,7 +35,6 @@ query={ppmpHdrId: selectedValue}
   }
   else{
 
-console.log("search"+ search);
   query = {
      ppmpHdrId: selectedValue,
     $or: [
@@ -65,13 +66,17 @@ console.log("search"+ search);
   var department = await Department.findById(departmentId)
   department == null ? departmentdesc = null : departmentdesc = department.description;
 
-  var ppmpHdr = await PpmpHdr.find({ "departmentId": departmentId, fiscalYear: 2026 })
+  var ppmpHdr = await PpmpHdr.findOne({ "departmentId": departmentId, fiscalYear: 2026 });
+ ppmpHdr!=null? ppmpHdrId = ppmpHdr._id:ppmpHdrId = null; 
 
+
+  
   res.render("ppmp/ppmp", {
-    departmentId: departmentId,
+    departmentId: departmentId, 
     personId: personId,
     departmentdesc: departmentdesc,
-    ppmpHdrs: ppmpHdr,
+    ppmpHdrId: ppmpHdrId,
+    type:null,
     selectedValue: selectedValue,
     ppmpDtls: ppmpDtl,
     unitOfMeasurements: unitOfMeasurements,
@@ -83,27 +88,54 @@ console.log("search"+ search);
   });
 });
 
-router.get("/:postId", async function(req, res){
+router.get("/createppmphdr", async function (req, res) {
+
  
- var selectedValue =req.params.postId;
-selectedValue != undefined?  selectedValue =req.params.postId: null ;
+  const user = await User.findById(req.user._id);
+  var personId = user.personId;
+  var person = await Person.findById(personId);
+  var departmentId = null;
+  var departmentdesc = null;
+  if (person != null) {
+    departmentId = person.departmentId;
+  }
+  var department = await Department.findById(departmentId)
+  department == null ? departmentdesc = null : departmentdesc = department.description
+  res.render("ppmp/ppmpHdr", { departmentId: departmentId, personId: personId, departmentdesc: departmentdesc, });
+});
 
 
-console.log("selected value " + selectedValue) ;
+
+
+
+
+
+router.get("/:postId", async function(req, res){
+
+ var selectedValue = req.params.postId; 
+
+console.log ( selectedValue )
+ var toBesplice =  selectedValue.split(",");
+
+ var type = toBesplice[0];
+ var hdrid = toBesplice[1];  
+
+hdrid=="null"? selectedValue="692a661c49433110505602b3" :selectedValue =hdrid;
+
   const page = parseInt(req.query.page) || 1;
   
   const limit = 5; // records per page
   const search = req.query.search || '';
 var query = null;
   if (search== ''){
-query={ ppmpHdrId: selectedValue }
+query={ ppmpHdrId: hdrid, ppmpType: type}
   }
   else{
 
-  //const query = {procLawCategoryId: "Goods" };
-console.log("search"+ search);
+ 
   query = {
-      ppmpHdrId: selectedValue ,
+      ppmpHdrId: hdrid ,
+      ppmpType: type,
     $or: [
       
       { sourceOfFund: { $regex: search, $options: 'i' } },
@@ -119,18 +151,11 @@ console.log("search"+ search);
   const ppmpDtl = await PpmpDtl.find(query)
     .skip((page - 1) * limit)
     .limit(limit);
+ 
 
-  
-  
-     var unitOfMeasurements = await UnitOfMeasurement.find({});
+ var unitOfMeasurements = await UnitOfMeasurement.find({});
   var procModes = await ProcMode.find({});
 
- 
-console.log("selected value " + selectedValue) ;
- 
- //if (selectedValue!="null"){
-    
- //ppmpDtl = await PpmpDtl.find({ ppmpHdrId: selectedValue }).sort({ createdAt: -1 }); }
   const user = await User.findById(req.user._id);
   var personId = user.personId;
   var person = await Person.findById(personId);
@@ -139,17 +164,20 @@ console.log("selected value " + selectedValue) ;
  var selectedcategory =   ppmpDtl.procLawCategoryId;
   if (person != null) {
     departmentId = person.departmentId;
-  }
+  } 
   var department = await Department.findById(departmentId)
   department == null ? departmentdesc = null : departmentdesc = department.description;
 
   var ppmpHdr = await PpmpHdr.find({ "departmentId": departmentId })
 
+if (type =="None"){type=null;}
+
   res.render("ppmp/ppmp", {
     departmentId: departmentId,
     personId: personId,
     departmentdesc: departmentdesc,
-    ppmpHdrs: ppmpHdr,
+    type:type,
+    ppmpHdrId: hdrid,
     selectedValue: selectedValue,
     ppmpDtls: ppmpDtl,
     unitOfMeasurements: unitOfMeasurements,
@@ -163,11 +191,9 @@ console.log("selected value " + selectedValue) ;
   })
 
 
-
-
-
 //select change
 router.post("/", async function (req, res) {
+  console.log("YOU R INSIDE THE SELECT CHANGE")
   var unitOfMeasurements = await UnitOfMeasurement.find({});
   var procModes = await ProcMode.find({});
   var ppmpDtl = [];
@@ -185,6 +211,7 @@ router.post("/", async function (req, res) {
   department == null ? departmentdesc = null : departmentdesc = department.description;
 
    var ppmpHdr = await PpmpHdr.find({ "departmentId": departmentId, fiscalYear: 2026 })
+
   res.render("ppmp/ppmp", {
     departmentId: departmentId,
     personId: personId,
@@ -195,24 +222,12 @@ router.post("/", async function (req, res) {
     unitOfMeasurements: unitOfMeasurements,
     procModes: procModes
 
+    
   });
 
 });
 
 
-router.get("/createppmphdr", async function (req, res) {
-  const user = await User.findById(req.user._id);
-  var personId = user.personId;
-  var person = await Person.findById(personId);
-  var departmentId = null;
-  var departmentdesc = null;
-  if (person != null) {
-    departmentId = person.departmentId;
-  }
-  var department = await Department.findById(departmentId)
-  department == null ? departmentdesc = null : departmentdesc = department.description
-  res.render("ppmp/ppmpHdr", { departmentId: departmentId, personId: personId, departmentdesc: departmentdesc, });
-});
 
 
 
@@ -221,7 +236,7 @@ router.post("/createPpmp", async function (req, res) {
 var departmentdesc =null;
   var ppmpHdrId = req.body.hiddenppmphdrIdnew
   var ppmphdr =  await PpmpHdr.findById(ppmpHdrId);
-var ppmpDtlstage = ppmphdr.ppmpType;
+var fiscalYear = ppmphdr.fiscalYear;
 var departmentId =  ppmphdr.departmentId;
 
   var selectedcategory = null;
@@ -251,23 +266,29 @@ var department = await Department.findById(departmentId)
     estimatedBudget:req.body.estimatedBudget,
     attachedSupportingDocs:req.body.attachedSupportingDocs,
     remarks:req.body.remarks,
-
-     procStage: ppmpDtlstage ,
+    appCategoryItem:"Genaral Item",
+     fiscalYear:fiscalYear,
+     ppmpType:req.body.hiddenppmpdtlType ,
+     procStage: "PPMP" ,
     appEndUser : departmentdesc,
     appProcModes : req.body.procMode,
     appCoveredEPA:"No", 
-    appCriteriaBidEval: ""
+    appCriteriaBidEval: "",
+     appProcStrac:"",
+     appRemarks: ""
  });
 
-console.log(newPpmpDtl); 
+
+
+
 
   try {
-  // var ppmpnew = await newPpmpDtl.save();
+  var ppmpnew = await newPpmpDtl.save();
+
   }
   catch (err) {
     req.flash("error", err);
-    console.log(err);
-    console.log("error insaving ppmpDtl");
+ 
   }
   
   const selectedValue = req.body.hiddenppmphdrIdnew;
@@ -276,14 +297,18 @@ const page = parseInt(req.query.page) || 1;
   const search = req.query.search || '';
 var query = null;
   if (search== ''){
-query={ ppmpHdrId: selectedValue }
+query={ ppmpHdrId: selectedValue,
+    ppmpType:req.body.hiddenppmpdtlType,
+        
+ }
   }
   else{
 
-  //const query = {procLawCategoryId: "Goods" };
-console.log("search"+ search);
+
+
   query = {
       ppmpHdrId: selectedValue ,
+      ppmpType:req.body.hiddenppmpdtlType,
     $or: [
       
       { sourceOfFund: { $regex: search, $options: 'i' } },
@@ -294,7 +319,7 @@ console.log("search"+ search);
       { department: { $regex: search, $options: 'i' } }
     ]
   }; }
-console.log(query);
+
   const totalPpmpDtl = await PpmpDtl.countDocuments(query);
   const ppmpDtl = await PpmpDtl.find(query)
     .skip((page - 1) * limit)
@@ -309,7 +334,7 @@ console.log(query);
   var personId = user.personId;
   var person = await Person.findById(personId);
   var departmentId = null;
-  var departmentdesc = null;
+  var departmentdesc = null; 
   if (person != null) {
     departmentId = person.departmentId;    
   }
@@ -317,10 +342,13 @@ console.log(query);
   department == null ? departmentdesc = null : departmentdesc = department.description;
 
  var ppmpHdr = await PpmpHdr.find({ "departmentId": departmentId, fiscalYear: 2026 })
+
    res.render("ppmp/ppmp", { departmentId: departmentId, 
                           personId: personId, 
                           departmentdesc: departmentdesc, 
                           ppmpHdrs:ppmpHdr, 
+                          ppmpHdrId:ppmpHdrId,
+                          type:req.body.hiddenppmpdtlType,
                           selectedValue: selectedValue, 
                           ppmpDtls:ppmpDtl,
                            unitOfMeasurements: unitOfMeasurements,
@@ -332,51 +360,88 @@ console.log(query);
                         });  
  //res.redirect("/ppmp");
 
-}) 
+})  
 
 
 router.post("/edit/:ppmpId", async function (req, res) {
 
   console.log("in side edit")
-  var ppmpDtl=null;
+ // var ppmpDtl=null;
   var ppmpDtlId = req.params.ppmpId;
   var selectedcategory = null;
    var unitOfMeasurements = await UnitOfMeasurement.find({});
   var procModes = await ProcMode.find({});
   const user = await User.findById(req.user._id);
-  var ppmpDtl = await PpmpDtl.findById(ppmpDtlId); 
+  var ppmpDtledit = await PpmpDtl.findById(ppmpDtlId); 
 
-  console.log("before",ppmpDtl);
-    ppmpDtl.ppmpHdrId = req.body.hiddenppmphdrIdnew,
-    ppmpDtl.generalDescName=req.body.generalDescName,
-    ppmpDtl.procLawCategoryId =req.body.ppmpCategory,
-    ppmpDtl.quantity =req.body.quantity,
-    ppmpDtl.unitMeasurement  =req.body.unitOfMeasurement,
-    ppmpDtl.procurementMode =req.body.procMode,
+  console.log("before",ppmpDtledit);
+    ppmpDtledit.ppmpHdrId = req.body.hiddenppmphdrIdnew,
+    ppmpDtledit.generalDescName=req.body.generalDescName,
+    ppmpDtledit.procLawCategoryId =req.body.ppmpCategory,
+    ppmpDtledit.quantity =req.body.quantity,
+    ppmpDtledit.unitMeasurement  =req.body.unitOfMeasurement,
+    ppmpDtledit.procurementMode =req.body.procMode,
  
-    ppmpDtl.startProc= req.body.startProc,
-    ppmpDtl.endProc = req.body.endProc,
-    ppmpDtl.expectedDelivery = req.body.expectedDelivery,
-    ppmpDtl.sourceOfFund  = req.body.sourceOfFound, 
-    ppmpDtl.estimatedBudget = req.body.estimatedBudget,
-    ppmpDtl.attachedSupportingDocs = req.body.attachedSupportingDocs,
-    ppmpDtl.remarks=req.body.remarks
+    ppmpDtledit.startProc= req.body.startProc,
+    ppmpDtledit.endProc = req.body.endProc,
+    ppmpDtledit.expectedDelivery = req.body.expectedDelivery,
+    ppmpDtledit.sourceOfFund  = req.body.sourceOfFound, 
+    ppmpDtledit.estimatedBudget = req.body.estimatedBudget,
+    ppmpDtledit.attachedSupportingDocs = req.body.attachedSupportingDocs,
+    ppmpDtledit.remarks=req.body.remarks
 
-   console.log("before",ppmpDtl);
+   console.log("before",ppmpDtledit);
 
 
   try {
-   await ppmpDtl.save();
+   await ppmpDtledit.save();
+   req.flash("info","Successfully Updated!!") ;
   }
   catch (err) {
     req.flash("error", err);
     console.log(err);
-    console.log("error insaving ppmpDtl");
+  
   }
   const selectedValue = req.body.hiddenppmphdrIdnew;
-  console.log(selectedValue);  
-    selectedValue != "null"?  ppmpDtl = await PpmpDtl.find({ ppmpHdrId: selectedValue }).sort({ createdAt: -1 }):"";
+  console.log("hidenID",req.body.hiddenppmpdtlTypeedit);  
+   /*  selectedValue != "null"?  ppmpDtl = await PpmpDtl.find({ ppmpHdrId: selectedValue }).sort({ createdAt: -1 }):"";
    selectedcategory =  PpmpDtl.procLawCategoryId
+ */
+
+const page = parseInt(req.query.page) || 1;
+ const limit = 5; // records per page
+  const search = req.query.search || '';
+var query = null;
+  if (search== ''){
+query={ ppmpHdrId: selectedValue,
+    ppmpType:req.body.hiddenppmpdtlTypeedit,
+        
+ }
+  }
+  else{
+
+
+
+  query = {
+      ppmpHdrId: selectedValue ,
+      ppmpType:req.body.hiddenppmpdtlType,
+    $or: [
+      
+      { sourceOfFund: { $regex: search, $options: 'i' } },
+      { firstName: { $regex: search, $options: 'i' } },
+      { lastName: { $regex: search, $options: 'i' } },
+      { email: { $regex: search, $options: 'i' } },
+      { position: { $regex: search, $options: 'i' } },
+      { department: { $regex: search, $options: 'i' } }
+    ]
+  }; }
+
+  const totalPpmpDtl = await PpmpDtl.countDocuments(query);
+  const ppmpDtl = await PpmpDtl.find(query)
+    .skip((page - 1) * limit)
+    .limit(limit);
+
+
 
     // 'mySelect' is the name attribute of your <select>
   
@@ -395,11 +460,18 @@ router.post("/edit/:ppmpId", async function (req, res) {
                           personId: personId, 
                           departmentdesc: departmentdesc, 
                           ppmpHdrs:ppmpHdr, 
-                          selectedValue: selectedValue, 
+                          type:req.body.hiddenppmpdtlTypeedit,
+                          ppmpHdrId: selectedValue, 
+
+                           selectedValue: selectedValue, 
                           ppmpDtls:ppmpDtl,
                            unitOfMeasurements: unitOfMeasurements,
                           procModes: procModes,
-                          selectedcategory:selectedcategory
+                          selectedcategory:selectedcategory,
+                          search,
+                          currentPage: page,
+                        totalPages: Math.ceil(totalPpmpDtl / limit)
+
                         });  
  //res.redirect("/ppmp");
 
@@ -414,21 +486,21 @@ router.post("/saveppmpHdr", async function (req, res) {
 
 
 
-
-
   const user = await User.findById(req.user._id);
 
    var fiscalYear= req.body.fiscalYear;
-   var ppmpType= req.body.ppmptype;
+
    var  departmentId=  req.body.hiddepartmentId;
 
  const existingRecord = await PpmpHdr.findOne({
       departmentId,
-      fiscalYear,
-      ppmpType
+      fiscalYear
+      
     });
 
-    console.log(existingRecord,  departmentId, fiscalYear, ppmpType);
+
+
+    console.log(existingRecord,  departmentId, fiscalYear);
    if (existingRecord) {
 
     console.log("duplicate");
@@ -438,10 +510,12 @@ router.post("/saveppmpHdr", async function (req, res) {
 
 else{
 
+
+
   var newPpmpHdr = new PpmpHdr({
     versionNo: req.body.versionNo == undefined ? null : req.body.versionNo,
     fiscalYear: req.body.fiscalYear == undefined ? null : req.body.fiscalYear,
-    ppmpType: req.body.ppmptype == undefined ? null : req.body.ppmptype,
+    ppmpType: null,
     departmentId: req.body.hiddepartmentId,
     prepareBy: req.body.hidpersonId,
     submitBy: req.body.hidpersonId,
@@ -449,27 +523,68 @@ else{
     dateprepared: Date.now(),
     dateSubmitted: null
   });
-  try {
-    var ppmpnew = await newPpmpHdr.save();
-  }
-  catch (err) {
-    req.flash("error", err);
-  }
+
+
+
+
+
+
+    console.log(newPpmpHdr);
+   var ppmpnew = await newPpmpHdr.save();
+console.log("don saving");
+
+
+
 
 }
   res.redirect("/ppmp");
 })
  
-
+ 
 
  
 router.post("/delete/:ppmpDtlId", async function(req, res){
 
  await PpmpDtl.findByIdAndDelete(req.params.ppmpDtlId);
-res.redirect("/ppmp/"+ req.body.hiddenppmphdrIddelete);
+res.redirect("/ppmp/"+ req.body.hiddenTypedelete+","+ req.body.hiddenppmphdrIddelete);
   }) 
 
+    
+ router.post("/saveToApp", async function(req, res) {
+ 
+   var type = req.body.hiddenppmpdtlTypeSubmitApp
+   var ppmpHdrId = req.body.hiddenppmphdrIdSubmitApp
+  
 
+console.log("you are here");
+console.log(ppmpHdrId);
+
+ const result = await PpmpDtl.updateMany(
+      {ppmpHdrId: ppmpHdrId,
+    ppmpType:type,
+  fiscalYear:"2026"},
+     { $set: { procStage: "APP" } } 
+
+      )
+
+
+      console.log(result);
+  /* try {
+      const result = await PpmpDtl.updateMany(
+      {ppmpHdrId: selectedValue,
+    ppmpType:"final"},
+      { $set: { [procStage]: APP } } 
+    );
+
+
+    res.json({
+      message: `Field '${field}' updated for all records`,
+      modifiedCount: result.modifiedCount
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  } */
+});
 
 
 

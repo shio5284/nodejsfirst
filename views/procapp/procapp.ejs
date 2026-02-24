@@ -1,67 +1,294 @@
 <%- include('../_partial/_header.ejs') %>
 
 
+
+
+
     <div class="row" style="padding-top: 20px">
-        <div class="col-md-6">
-            <h4>Annual Porcurement  Plan</h4>
+        <div class="col-md-9">
+            <h4>Annual Porcurement Plan</h4>
+        </div>
+
+
+
+
+        <div class="form-group col-md-2">
+            <label for="Fiscal year" class="sr-only mt-md-2"
+                style="font-size: larger; font-weight: 500; text-align: right;">Deault Fiscal year </label>
+
+        </div>
+        <div class="form-group col-md-1">
+
+            <select class="form-control" name="defaultFiscalYear">
+                <option>2026 </option>
+                <option>2027 </option>
+                <option>2028 </option>
+            </select>
         </div>
     </div>
 
 
 
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-9">
+            <h6>General Item</h6>
+        </div>
 
-<h2>Add Item</h2>
-<form action="/items/create" method="POST">
-  <input name="name" placeholder="Name" required>
-  <input name="category" placeholder="Category">
-  <input name="price" placeholder="Price" type="number">
-  <button>Add</button>
-</form>
-
-<hr>
-
-<table>
-  <thead>
-    <tr>
-      <th>Include</th>
-      <th>Name</th>
-      <th>Category</th>
-      <th>Price</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% ppmpDtls.forEach(ppmpDtl => { %>
-       <tr class="<%= ppmpDtl.status ? 'excluded' : '' %>"> 
-        
-        <td>
-          <input
-            type="checkbox"
-             <%= ppmpDtl.status ? '' : 'checked' %> 
-            onchange="toggleExclude('<%= ppmpDtl._id %>')"
-          >
-        </td>
-        <td><%= ppmpDtl.generalDescName %></td>
-        <td><%= ppmpDtl.quantity %></td>
-        <td><%= ppmpDtl.unitMeasurement  %></td>
-        <td>
-          <form action="/items/delete/<%= ppmpDtl._id %>" method="POST" style="display:inline;">
-            <button onclick="return confirm('Delete?')">Delete</button>
-          </form>
-        </td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
-
-<!-- PAGINATION -->
-<div class="pagination">
-  <% for (let i = 1; i <= totalPages; i++) { %>
-    <a href="/procapp?page=<%= i %>"> 
-      <%= i %>
-    </a>
-  <% } %>
-</div>
+    </div>
 
 
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>General Description</th>
+                <th>Qty</th>
+                <th>Unit Measure</th>
+                <th>End User </th>
+                <th>Mode Proc. </th>
+                <th>Criteria Eval. </th>
+                <th>Source of Fund </th>
+                <th>Est. Budget </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% ppmpDtls.forEach(ppmpDtl=> { %>
+                <tr>
+                    <td>
+                        <%= ppmpDtl.generalDescName %>
+                    </td>
+                    <td>
+                        <%= ppmpDtl. quantity %>
+                    </td>
+                    <td>
+                        <%= ppmpDtl.unitMeasurement %>
+                    </td>
+                    <td>
 
+                        <%= ppmpDtl.appEndUser; %>
+                    </td>
+                    <td>
+
+                       <%= ppmpDtl.appProcStrac %>
+                       <!--  <% const procMode=procModes.find(pm=> pm._id.toString() === ppmpDtl.procurementMode.toString());
+                            %>
+                            <%= procMode ? procMode.procModeDesc : '' %> -->
+
+                    </td>
+                    <td>
+                        <%= ppmpDtl.appCriteriaBidEval %>
+                    </td>
+                    <td>
+                        <%= ppmpDtl.sourceOfFund %>
+                    </td>
+                    <td>
+                        <%= ppmpDtl.estimatedBudget %>
+                      
+
+
+                    </td>
+                    <td>
+                        <button class="btn btn-warning btn-sm editBtnapp" 
+                            data-id="<%= ppmpDtl._id %>"
+                            data-generaldescnameapp="<%= ppmpDtl.generalDescName %>"
+                            data-quantityapp="<%= ppmpDtl.quantity %>"
+                            data-unitmeasurementapp="<%= ppmpDtl.unitMeasurement %>"
+                            data-startprocapp="<%= ppmpDtl.startProc.toISOString().split("T")[0] %>"
+                            data-endprocapp="<%= ppmpDtl.endProc.toISOString().split("T")[0] %>"
+                            data-sourceoffundapp="<%= ppmpDtl.sourceOfFund %>"
+                            data-estimatedbudgetapp="<%= ppmpDtl.estimatedBudget %>"
+
+                             data-categoryitemapp="<%= ppmpDtl.appCategoryItem %>"
+                            data-appprocmodes="<%= ppmpDtl.appProcModes %>"                        
+                           data-appcriteriabideval="<%= ppmpDtl.appCriteriaBidEval %>"
+                            data-appproctrac="<%= ppmpDtl.appProcStrac %>"
+                                data-appremarks= "<%= ppmpDtl.appRemarks %>"
+                                                         
+
+
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#editModal">
+                                                            Edit
+                        </button>
+
+
+
+
+                        <button class="btn btn-danger btn-sm deleteBtn" data-id="<%= ppmpDtl._id %>"
+                            data-name="<%= ppmpDtl.generalDescName %>" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+
+    <div>
+        <% if (currentPage> 1) { %>
+            <a href="/ppmp/<%=selectedValue%>?search=<%= search %>&page=<%= currentPage - 1 %>">⬅ Prev</a>
+            <% } %>
+
+                Page <%= currentPage %> of <%= totalPages %>
+
+                        <% if (currentPage < totalPages) { %>
+                            <a href="/ppmp/<%=selectedValue%>?search=<%= search %>&page=<%= currentPage + 1 %>">Next
+                                ➡</a>
+                            <% } %>
+    </div>
+
+
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form id="editForm" method="POST" class="modal-content" style="background-color: aquamarine;">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Annual Procrement Plan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="lastname" class="sr-only mt-md-3">General Description</label>
+                            <input type="text" class="form-control" name="generalDescName" id="editgeneralDescName"
+                                required>
+                        </div>
+
+
+                      <div class="form-group col-md-3">
+                            <label for="appCategoryItem" class="sr-only mt-md-3">Item Category</label>
+                            <select class="form-control" name="appCategoryItem" id="editappCategoryItem" required>
+                                <option value=""></option>
+                                <option value="General Item">General Item</option>
+                                <option value="Infrastructure Project">Misceallenous</option>
+                                <option value="Consulting Services">PS DBM</option>
+                            </select>
+                        </div>
+             
+
+                             <div class="form-group col-md-3">
+                            <label for="bday" class="sr-only mt-md-3">Procurement Mode</label>
+                            <select class="form-control" name="procMode" id="editprocurementMode" required>
+                                <option value=""> </option>
+                                <% procModes.forEach(function(procMode){ %>
+                                    <option value="<%=procMode._id %>">
+
+                                        <%=procMode.procModeDesc %>
+
+                                    </option>
+
+
+                                    <% })%>
+                            </select>
+                        </div>
+             
+            
+
+
+                    </div>
+
+                    <div class="row">
+
+
+      
+            <div class="form-group col-md-4">
+                            <label for="criteriaForBidEval" class="sr-only mt-md-3"> Criteria For Bid Evaluation</label>
+                            <select class="form-control" name="criteriaForBidEval" id="editcriteriaForBidEval" required>
+                                <option value="">Select Category</option>
+                                <option value="Lowest Calculated Responsive Bid">Lowest Calculated Responsive Bid</option>
+                                <option value="Most Economically Advantageous Responsive Bid">Most Economically Advantageous Responsive Bid</option>
+                                <option value="Most Advantageous Responsive bid">Most Advantageous Responsive bid</option>
+                            </select>
+                        </div>
+
+                             <div class="form-group col-md-4">
+                            <label for="procurementStrat" class="sr-only mt-md-3">Procurement Strategy</label>
+                            <select class="form-control" name="procurementStrat" id="editprocurementStrat" required>
+                               <option value=""> </option>
+                                <% procStratTools.forEach(function(procStratTool){ %>
+                                    <option value="<%=procStratTool.procStratToolDesc%>">
+                                        <%= procStratTool.procStratToolDesc %>
+
+                                    </option>
+
+
+                                    <% })%>
+                            </select>
+                        </div>
+
+
+                   
+
+                        <div class="form-group col-md-2">
+                            <label for="startProc" class="sr-only mt-md-3">Start Of Proc. Act.
+                            </label>
+                            <input type="date" class="form-control" name="startProc" id="editstartProc" required>
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="endProc" class="sr-only mt-md-3">End Of Proc. Act. </label>
+                            <input type="date" class="form-control" name="endProc" id="editendProc" required>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="form-group col-md-1">
+                            <label for="Gender" class="sr-only mt-md-3">Quantity</label>
+                            <input type="number" class="form-control" name="quantity" id="editQuantity" required>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="bday" class="sr-only mt-md-3">Unit Of Measurement</label>
+                            <select class="form-control" name="unitOfMeasurement" id="editunitOfMeasurement">
+                                <option value=""> </option>
+                                <% unitOfMeasurements.forEach(function(unitOfMeasurement){ %>
+                                    <option value="<%=unitOfMeasurement.unitOfMeasurementDesc %>">
+                                        <%= unitOfMeasurement.unitOfMeasurementDesc %>
+
+                                    </option>
+
+
+                                    <% })%>
+                            </select>
+                        </div>
+                       
+                        <div class="form-group col-md-2">
+                            <label for="Bday" class="sr-only mt-md-3">Estimated Budget </label>
+                            <input type="number" class="form-control" name="estimatedBudget" id="editestimatedBudget"
+                                required>
+                        </div>
+
+                         <div class="form-group col-md-3">
+                            <label for="sourceOfFound" class="sr-only mt-md-3">Source Of Fund </label>
+                            <input type="input" class="form-control" name="sourceOfFound" id="editsourceOfFound">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="appRemarks" class="sr-only mt-md-3">Remarks app</label>
+                            <input type="input" class="form-control" name="appRemarks"  id="editappRemarks">
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+
+                    
+                        <input type="hidden" id="ppmphdrId" name="hiddenppmphdrIdnew" value="">
+                        <input type="hidden" id="ppmphdrId" name="hiddenppmpdtlTypeedit">
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+
+            </form>
+        </div>
+    </div>

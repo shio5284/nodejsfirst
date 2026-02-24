@@ -1,0 +1,61 @@
+<%- include('../_partial/_header.ejs') %>
+
+
+    <div class="row" style="padding-top: 20px">
+        <div class="col-md-6">
+            <h4>Annual Porcurement  Plan</h4>
+        </div>
+    </div>
+
+
+
+
+
+
+<hr>
+
+<table>
+  <thead>
+    <tr>
+      <th>Include</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% ppmpDtls.forEach(ppmpDtl => { %>
+       <tr class="<%= ppmpDtl.status ? 'excluded' : '' %>"> 
+        
+        <td>
+          <input
+            type="checkbox"
+             <%= ppmpDtl.status ? '' : 'checked' %> 
+            onchange="toggleExclude('<%= ppmpDtl._id %>')"
+          >
+        </td>
+        <td><%= ppmpDtl.generalDescName %></td>
+        <td><%= ppmpDtl.quantity %></td>
+        <td><%= ppmpDtl.unitMeasurement  %></td>
+        <td>
+          <form action="/items/delete/<%= ppmpDtl._id %>" method="POST" style="display:inline;">
+            <button onclick="return confirm('Delete?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<!-- PAGINATION -->
+<div class="pagination">
+  <% for (let i = 1; i <= totalPages; i++) { %>
+    <a href="/procapp?page=<%= i %>"> 
+      <%= i %>
+    </a>
+  <% } %>
+</div>
+
+
+

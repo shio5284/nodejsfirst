@@ -94,7 +94,7 @@ router.post("/saveppmpDtl", async function (req, res) {
 
 
 
-  console.log(newPpmpDtl); 
+  //console.log(newPpmpDtl); 
   /* console.log(req.body.versionNo); 
   console.log( req.body.fiscalYear); 
   console.log( req.body.ppmptype); */

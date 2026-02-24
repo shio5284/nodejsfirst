@@ -39,10 +39,60 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("editexpectedDelivery").value = btn.dataset.expecteddelivery || ""; 
       document.getElementById("editattachedSupportingDocs").value = btn.dataset.attachedsupportingdocs || "";
       document.getElementById("editremarks").value = btn.dataset.remarks || "";
+
+       
+     
+    }
+
+
+
+
+    if (e.target.classList.contains("editBtnapp")) {
+
+      const btn = e.target;
+
+      document.getElementById("editForm").action =
+        "/procApp/edit/" + btn.dataset.id + "?_method=PUT";
+
+      document.getElementById("editgeneralDescName").value = btn.dataset.generaldescnameapp || "";
+      document.getElementById("editQuantity").value = btn.dataset.quantityapp || "";
+      document.getElementById("editunitOfMeasurement").value = btn.dataset.unitmeasurementapp || "";
+      document.getElementById("editstartProc").value = btn.dataset.startprocapp || "";
+      document.getElementById("editendProc").value = btn.dataset.endprocapp || "";
+      document.getElementById("editsourceOfFound").value = btn.dataset.sourceoffundapp || "";
+      document.getElementById("editestimatedBudget").value = btn.dataset.estimatedbudgetapp || "";
+
+       document.getElementById("editappCategoryItem").value = btn.dataset.categoryitemapp || "";
+        document.getElementById("editprocurementMode").value = btn.dataset.appprocmodes || "";
+           document.getElementById("editcriteriaForBidEval").value = btn.dataset.appcriteriabideval || ""; 
+      document.getElementById("editprocurementStrat").value = btn.dataset.appproctrac || ""; 
+   
+      document.getElementById("editappRemarks").value = btn.dataset.appremarks || ""; 
+    
+
+ 
+  
+
+
+
+
     }
 
     // DELETE BUTTON CLICK
     if (e.target.classList.contains("deleteBtn")) {
+
+      const btn = e.target;
+
+      document.getElementById("deleteForm").action =
+        "/ppmp/delete/" + btn.dataset.id ;
+
+      document.getElementById("deleteName").innerText =
+        btn.dataset.name || "";
+    }
+
+
+
+      if (e.target.classList.contains("deleteBtn")) {
 
       const btn = e.target;
 

@@ -16,11 +16,17 @@ var ppmpDtlSchema = mongoose.Schema({
     estimatedBudget: {type:Number ,required : false },
     attachedSupportingDocs: {type: String, required : false}, 
     remarks:{type: String, required : false},
-    procStage:  {type: String, required : false},
+    appCategoryItem: {type:String ,required : false },// general , misceallanous
+    fiscalYear: {type:Number ,required : false },
+    ppmpType: {type:String ,required : false },
+    procStage:  {type: String, required : false},//PPMP, APP
     appEndUser : {type: String, required : false},
     appProcModes : {type: String, required : false},
     appCoveredEPA:{type: String, required : false}, 
-    appCriteriaBidEval: {type: String, required : true}
+    appCriteriaBidEval: {type: String, required : false},
+    appProcStrac:{type: String, required : false},
+    appRemarks: {type: String, required : false}
+
 
 });
 
