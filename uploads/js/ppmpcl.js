@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   select.addEventListener("change", function () {
 
-    
+
     window.location.href = "/ppmp/" + this.value;
   });
 });
@@ -20,13 +20,24 @@ document.addEventListener("DOMContentLoaded", function () {
   // EDIT BUTTON CLICK
   document.addEventListener("click", function (e) {
 
+
+
+         if (e.target.classList.contains("editBtnitem")) { 
+      const btn = e.target;
+      document.getElementById("editForm").action ="/ppmpItem/edit/" + btn.dataset.id + "?_method=PUT";
+      document.getElementById("editgeneralDescName").value = btn.dataset.generaldescription || "";
+      document.getElementById("editprice").value = btn.dataset.unitprice || "";
+      document.getElementById("editunitOfMeasurement").value = btn.dataset.unitmeasurement || "";
+    document.getElementById("editremarks").value = btn.dataset.remarks || "";
+     document.getElementById("editmodeProcurement").value = btn.dataset.modeprocurement || "";
+      
+    }
+
     if (e.target.classList.contains("editBtn")) {
 
       const btn = e.target;
 
-      document.getElementById("editForm").action =
-        "/ppmp/edit/" + btn.dataset.id + "?_method=PUT";
-
+      document.getElementById("editForm").action ="/ppmp/edit/" + btn.dataset.id + "?_method=PUT";
       document.getElementById("editgeneralDescName").value = btn.dataset.generaldescname || "";
       document.getElementById("editQuantity").value = btn.dataset.quantity || "";
       document.getElementById("editunitOfMeasurement").value = btn.dataset.unitmeasurement || "";
@@ -36,24 +47,15 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("editestimatedBudget").value = btn.dataset.estimatedbudget || "";
       document.getElementById("editprocLawCategoryId").value = btn.dataset.proclawcategoryid || "";
       document.getElementById("editprocurementMode").value = btn.dataset.procurementmode || "";
-      document.getElementById("editexpectedDelivery").value = btn.dataset.expecteddelivery || ""; 
+      document.getElementById("editexpectedDelivery").value = btn.dataset.expecteddelivery || "";
       document.getElementById("editattachedSupportingDocs").value = btn.dataset.attachedsupportingdocs || "";
       document.getElementById("editremarks").value = btn.dataset.remarks || "";
-
-       
-     
     }
 
 
-
-
     if (e.target.classList.contains("editBtnapp")) {
-
       const btn = e.target;
-
-      document.getElementById("editForm").action =
-        "/procApp/edit/" + btn.dataset.id + "?_method=PUT";
-
+      document.getElementById("editForm").action ="/procApp/edit/" + btn.dataset.id + "?_method=PUT";
       document.getElementById("editgeneralDescName").value = btn.dataset.generaldescnameapp || "";
       document.getElementById("editQuantity").value = btn.dataset.quantityapp || "";
       document.getElementById("editunitOfMeasurement").value = btn.dataset.unitmeasurementapp || "";
@@ -61,22 +63,16 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("editendProc").value = btn.dataset.endprocapp || "";
       document.getElementById("editsourceOfFound").value = btn.dataset.sourceoffundapp || "";
       document.getElementById("editestimatedBudget").value = btn.dataset.estimatedbudgetapp || "";
-
-       document.getElementById("editappCategoryItem").value = btn.dataset.categoryitemapp || "";
-        document.getElementById("editprocurementMode").value = btn.dataset.appprocmodes || "";
-           document.getElementById("editcriteriaForBidEval").value = btn.dataset.appcriteriabideval || ""; 
-      document.getElementById("editprocurementStrat").value = btn.dataset.appproctrac || ""; 
-   
-      document.getElementById("editappRemarks").value = btn.dataset.appremarks || ""; 
-    
-
- 
-  
-
-
-
+      document.getElementById("editappCategoryItem").value = btn.dataset.categoryitemapp || "";
+      document.getElementById("editprocurementMode").value = btn.dataset.appprocmodes || "";
+      document.getElementById("editcriteriaForBidEval").value = btn.dataset.appcriteriabideval || "";
+      document.getElementById("editprocurementStrat").value = btn.dataset.appproctrac || "";
+      document.getElementById("editappRemarks").value = btn.dataset.appremarks || "";
 
     }
+
+
+
 
     // DELETE BUTTON CLICK
     if (e.target.classList.contains("deleteBtn")) {
@@ -84,22 +80,22 @@ document.addEventListener("DOMContentLoaded", function () {
       const btn = e.target;
 
       document.getElementById("deleteForm").action =
-        "/ppmp/delete/" + btn.dataset.id ;
+        "/ppmpItem/delete/" + btn.dataset.id;
 
       document.getElementById("deleteName").innerText =
-        btn.dataset.name || "";
+      btn.dataset.name || "";
     }
 
 
 
-      if (e.target.classList.contains("deleteBtn")) {
+    if (e.target.classList.contains("deleteBtn")) {
 
       const btn = e.target;
 
-      document.getElementById("deleteForm").action =
-        "/ppmp/delete/" + btn.dataset.id ;
+      document.getElementById("deleteFormItem").action =
+        "/ppmpItem/delete/" + btn.dataset.id;
 
-      document.getElementById("deleteName").innerText =
+      document.getElementById("deleteNameItem").innerText =
         btn.dataset.name || "";
     }
 
@@ -108,14 +104,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+ 
 
-
-  function toggleExclude(id) {
-    fetch(`/items/toggle/${id}`, {
-      method: "POST"
-    })
+function toggleExclude(id) {
+  fetch(`/items/toggle/${id}`, {
+    method: "POST"
+  })
     .then(res => res.json())
     .then(() => location.reload());
-  }
+}
 
 

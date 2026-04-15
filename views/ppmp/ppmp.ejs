@@ -3,42 +3,42 @@
 
     <div class="row" style="padding-top: 20px">
         <div class="col-md-6">
-            <h4>Project Porcurement Management Plan</h4>
+            <h4>Project Porcurement Management lan</h4>
         </div>
     </div>
-    <div style="background-color:aliceblue; padding: 15px 20px 10px 20px; ">
+    <div style=" padding: 15px 20px 10px 20px; ">
         <form action="/ppmp" method="POST">
             <div class="row" style="text-align: center;">
             </div>
             <div class="row">
                 <div class="form-group col-md-5">
                     <label for="ppmpselect" class="sr-only mt-md-12"
-                        style="font-size: larger; font-weight: 500; text-align: left;"> PPMP for <%=departmentdesc %>
+                        style="font-size: larger; font-weight: 500; text-align: left;">  <%=departmentdesc %>  Department
                     </label>
-                    <select class="form-control" name="ppmptypeHdr" id="ppmphdrselect">
-                        <option value="None,<%=ppmpHdrId%>">select pppmp </option>
-                        <option value="Indicative,<%=ppmpHdrId%>" <%="Indicative"==type ? "selected" : "" %>>Indicative
-                        </option>
-                        <option value="Final,<%=ppmpHdrId%>" <%="Final"==type ? "selected" : "" %>>Final</option>
-
-                    </select>
+                    
 
 
 
                 </div>
-                <div class="form-group col-md-3">
-                </div>
+              
                 <div class="form-group col-md-2">
                     <label for="ppmpselect" class="sr-only mt-md-12"
                         style="font-size: larger; font-weight: 500; text-align: left;">Deault Fiscal year </label>
-                    <select class="form-control" name="defaultFiscalYear">
+
+                         
+                    
+                </div>
+
+
+                 <div class="form-group col-md-1">
+                            <select class="form-control" name="defaultFiscalYear">
                         <option>2026 </option>
                         <option>2027 </option>
                         <option>2028 </option>
                     </select>
                 </div>
             </div>
-            <div class=" row">
+            <div class="row" style="float: left;">
                 <div class="form-group col sr-only mt-md-12" style="text-align: center; padding-top: 20px;">
                     <input type="hidden" id="departmentId" name="hiddepartmentId" value="<%= departmentId %>">
                     <input type="hidden" id="personId" name="hidpersonId" value="<%= personId %>">
@@ -46,19 +46,16 @@
             </div>
         </form>
     </div>
-    <a href="/ppmp/createppmphdr"><button type="button" class="btn btn-primary">Create PPMP Header</button></a>
-
-    <hr style="height:20px;border-width:0;color:gray;background-color:gray">
-
+    
 
     <!-- <input type="hidden" id="ppmphdrId" name="hiddenppmphdrId" value="<%= selectedValue %>"> -->
 
-    <%if (type){%>
+
         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
             Create PPMP
         </button>
-        <%}%>
-            <form method="GET" action="/ppmp/<%=type%>,<%=selectedValue%>/">
+     
+            <form method="GET" action="/ppmp/">
                 <input type="text" name="search" value="<%= search %>" placeholder="Search PPMP details">
                 <button type="submit">Search</button>
             </form>
@@ -71,104 +68,7 @@
                         <th>Quantity</th>
                         <th>Unit Measure</th>
                         <th>Start Proc </th>
-                        <th>End Proc </th>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        
+                        <th>End Proc </th>                        
                         <th>Source of Fund </th>
                         <th>Est. Budget </th>
                         <th>Action</th>
@@ -245,7 +145,7 @@
 
             <div>
                 <% if (currentPage> 1) { %>
-                    <a href="/ppmp/<%=type%>,<%=selectedValue%>?search=<%= search %>&page=<%= currentPage - 1 %>">⬅
+                    <a href="/ppmp/?search=<%= search %>&page=<%= currentPage - 1 %>">⬅
                         Prev</a>
                     <% } %>
 
@@ -253,7 +153,7 @@
 
                                 <% if (currentPage < totalPages) { %>
                                     <a
-                                        href="/ppmp/<%=type%>,<%=selectedValue%>?search=<%= search %>&page=<%= currentPage + 1 %>">Next
+                                        href="/ppmp/?search=<%= search %>&page=<%= currentPage + 1 %>">Next
                                         ➡</a>
                                     <% } %>
             </div>

@@ -1,0 +1,305 @@
+<%- include('../_partial/_header.ejs') %>
+
+
+    <div class="row" style="padding-top: 20px">
+        <div class="col-md-6">
+            <h4>PPMP ITEMS</h4>
+        </div>
+    </div>
+
+
+
+
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+        Create Item PPMP
+    </button>
+
+    <form method="GET" action="/ppmpItem/">
+        <input type="text" name="search" value="<%= search %>" placeholder="Search PPMP details">
+        <button type="submit">Search</button>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>General Description</th>
+                <th>Quantity</th>
+                <th>Unit Measure</th>
+                <th>Procurement Mode </th>
+
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% ppmpItems.forEach(ppmpItem=> { %>
+                <tr>
+                    <td>
+                        <%= ppmpItem.itemCode %>
+                    </td>
+
+                    <td>
+                        <%= ppmpItem.generalDescription %>
+                    </td>
+                    <td>
+                        <%= ppmpItem.unitPrice %>
+                    </td>
+                    <td>
+                        <%= ppmpItem.unitOfMeasurement %>
+                    </td>
+
+                    <td>
+                        <%= ppmpItem.modeProcurement %>
+                       
+                    </td>
+
+                    <td>
+                         <button class="btn btn-warning btn-sm editBtnitem" 
+                            data-id="<%= ppmpItem._id %>"
+                            data-generaldescription="<%= ppmpItem.generalDescription %>"
+                            data-unitprice="<%= ppmpItem.unitPrice %>"
+                            data-unitmeasurement="<%= ppmpItem.unitOfMeasurement %>"
+                            data-modeprocurement="<%= ppmpItem.modeProcurement %>"
+                           data-remarks="<%= ppmpItem.remarks %>"
+                                                         
+
+remarks
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#editModal">
+                                                            edit
+                        </button>
+
+
+
+
+
+                        <button class="btn btn-danger btn-sm deleteBtn" data-id="<%= ppmpItem._id  %>"
+                                    data-name="<%= ppmpItem.generalDescription %>" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal">
+                                    Delete
+                                </button>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+
+
+
+
+    <div>
+        <% if (currentPage> 1) { %>
+            <a href="/ppmpItem/?search=<%= search %>&page=<%= currentPage - 1 %>">⬅
+                Prev</a>
+            <% } %>
+
+                Page <%= currentPage %> of <%= totalPages %>
+
+                        <% if (currentPage < totalPages) { %>
+                            <a href="/ppmpItem/?search=<%= search %>&page=<%= currentPage + 1 %>">Next
+                                ➡</a>
+                            <% } %>
+    </div>
+
+    <div style="text-align: right">
+
+    </div>
+
+
+
+
+
+
+   <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form id="editForm" method="POST" class="modal-content" style="background-color: aquamarine;">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit PPMP Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+              <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-8">
+                            <label for="lastname" class="sr-only mt-md-3">General Description</label>
+                            <input type="text" class="form-control" name="generalDescName" id="editgeneralDescName" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="bday" class="sr-only mt-md-3">Procurement Mode</label>
+                            <select class="form-control" name="procModename" id="editmodeProcurement" required>
+                                <option value=""> </option>
+                                <% procModes.forEach(function(procMode){ %>
+                                    <option value="<%=procMode.procModeDesc%>">
+                                        <%=procMode.procModeDesc %>
+                                    </option>
+
+
+
+
+                                    <% })%>
+                            </select>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-4">
+                            <label for="Price" class="sr-only mt-md-4">Price(estimate)</label>
+                            <input type="number" class="form-control" name="price" id="editprice" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="bday" class="sr-only mt-md-4">Unit Of Measurement</label>
+                            <select class="form-control" name="unitOfMeasurement" id="editunitOfMeasurement" required>
+                                <option value=""> </option>
+                                <% unitOfMeasurements.forEach(function(unitOfMeasurement){ %>
+                                    <option value="<%=unitOfMeasurement.unitOfMeasurementDesc %>"
+>
+
+                                        <%= unitOfMeasurement.unitOfMeasurementDesc %>
+
+                                    </option>
+
+
+                                    <% })%>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+
+                            <label for="Bday" class="sr-only mt-md-4">Remarks </label>
+                            <input type="input" class="form-control" name="remarks" id="editremarks">
+
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary">Upadte</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form id="deleteForm" method="POST" class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    Are you sure you want to delete Item <strong id="deleteName"></strong>?
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="createModal">
+        <div class="modal-dialog">
+            <form method="POST" action="/ppmpItem/createPpmpItem" class="modal-content">
+                <div class="modal-header" style="background-color:blue">
+                    <h5>Add PPMP Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-8">
+                            <label for="lastname" class="sr-only mt-md-3">General Description</label>
+                            <input type="text" class="form-control" name="generalDescName"
+                                placeholder="General Description of PPMP" required>
+                        </div>
+                              <div class="form-group col-md-3">
+                            <label for="bday" class="sr-only mt-md-3">Procurement Mode</label>
+                            <select class="form-control" name="procMode" id="editprocurementMode" required>
+                                <option value=""> </option>
+                                <% procModes.forEach(function(procMode){ %>
+                                    <option value="<%=procMode.procModeDesc %>">
+
+                                        <%=procMode.procModeDesc %>
+
+                                    </option>
+
+
+                                    <% })%>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-4">
+                            <label for="Price" class="sr-only mt-md-4">Price(estimate)</label>
+                            <input type="number" class="form-control" name="price" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="bday" class="sr-only mt-md-4">Unit Of Measurement</label>
+                            <select class="form-control" name="unitOfMeasurement" id="unitOfMeasurement">
+                                <option value=""> </option>
+                                <% unitOfMeasurements.forEach(function(unitOfMeasurement){ %>
+                                    <option value="<%=unitOfMeasurement.unitOfMeasurementDesc %>"
+                                        <%="seletedDepartmentDecs"===unitOfMeasurement.unitOfMeasurementDesc? "selected"
+                                        : "" %>>
+
+                                        <%= unitOfMeasurement.unitOfMeasurementDesc %>
+
+                                    </option>
+
+
+                                    <% })%>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+
+                            <label for="Bday" class="sr-only mt-md-4">Remarks </label>
+                            <input type="input" class="form-control" name="remarks" value="">
+
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    

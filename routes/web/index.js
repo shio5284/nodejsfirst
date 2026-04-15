@@ -18,6 +18,7 @@ router.use("/personalInfo",require("./personalInfo"));
 router.use("/ppmp",require("./ppmp"));
 router.use("/ppmpDtl",require("./ppmpdtl"));
 router.use("/procapp",require("./procapp"));
+router.use("/ppmpItem",require("./ppmpItem"));
 //to do add in  error and info
 
 /* router.get("/",function(req, res){

@@ -110,7 +110,7 @@ router.get("/createppmphdr", async function (req, res) {
 
 
 
-/* router.get("/:postId", async function(req, res){
+router.get("/:postId", async function(req, res){
 
  var selectedValue = req.params.postId; 
 
@@ -188,7 +188,7 @@ if (type =="None"){type=null;}
     totalPages: Math.ceil(totalPpmpDtl / limit)
 
   }); 
-  }) */
+  })
 
 
 
@@ -546,9 +546,7 @@ console.log("don saving");
  
 router.post("/delete/:ppmpDtlId", async function(req, res){
 
-  console.log(req.params.ppmpDtlId);
-
- //await PpmpDtl.findByIdAndDelete(req.params.ppmpDtlId);
+ await PpmpDtl.findByIdAndDelete(req.params.ppmpDtlId);
 res.redirect("/ppmp/"+ req.body.hiddenTypedelete+","+ req.body.hiddenppmphdrIddelete);
   }) 
 
@@ -571,7 +569,22 @@ console.log(ppmpHdrId);
       )
 
 
-  
+      console.log(result);
+  /* try {
+      const result = await PpmpDtl.updateMany(
+      {ppmpHdrId: selectedValue,
+    ppmpType:"final"},
+      { $set: { [procStage]: APP } } 
+    );
+
+
+    res.json({
+      message: `Field '${field}' updated for all records`,
+      modifiedCount: result.modifiedCount
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  } */
 });
 
 
