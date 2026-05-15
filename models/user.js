@@ -7,7 +7,7 @@ var userSchema = mongoose.Schema({
  email:{type:String, required : true, unique: true},
  password:{type:String, required :false},
  personId:{type:mongoose.Schema.Types.ObjectId, required: false, unique: false},
- userType:{type:Number},                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+ userType:{type:String},                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
  createdAt: {type:Date, default:Date.now}
 
 });

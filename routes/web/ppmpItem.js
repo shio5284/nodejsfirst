@@ -139,36 +139,27 @@ query=''
     ppmpItemedit.unitPrice =req.body.price,
     ppmpItemedit.unitOfMeasurement  =req.body.unitOfMeasurement,
     ppmpItemedit.modeProcurement =req.body.procModename,
- 
+
        ppmpItemedit.remarks=req.body.remarks
 
    console.log("after",ppmpItemedit);
 
 
-  try {
-  await ppmpItemedit.save();
+ await ppmpItemedit.save();
    req.flash("info","Successfully Updated!!") ;
-  }
-  catch (err) {
-    req.flash("error", err);
-    console.log(err);
+
+ 
+
+
+   res.redirect("/ppmpItem");
+
   
-  } 
-
-
-  res.render("ppmpItem/ppmpItem", {  search,ppmpItems:ppmpItem,
-    currentPage: page,
-    totalPages: Math.ceil(totalPpmpItem / limit)
-  ,procModes:procModes,
-  unitOfMeasurements:unitOfMeasurements
-  });
-
  
 }) 
 
 router.post("/delete/:ppmpDtlId", async function(req, res){
 
-  console.log(req.params.ppmpDtlId,"delete here ");
+  console.log(req.params.ppmpDtlId,"delete ppmp Item here ");
 
  await PpmpItem.findByIdAndDelete(req.params.ppmpDtlId);
 res.redirect("/ppmpItem/");

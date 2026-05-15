@@ -119,7 +119,7 @@ var department = await Department.findById(departmentId)
 
 var designation =  await Designation.findById(designationId); 
   designation==null ? designationdecs = null : designationdecs = designation.designationDesc;
-    res.render("personalInfo",{departments:departments,
+    res.render("personalInfo/personalInfo",{departments:departments,
          designations:designations,seletedDepartmentDecs:departmentdesc, 
          selecteddesignationdecs:designationdecs,person:person,bdayformat:formattedDate, seletedSex:sex});  
 })

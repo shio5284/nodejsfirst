@@ -1,154 +1,152 @@
 <%- include('../_partial/_header.ejs') %>
 
-    <div class="row" style="padding-top: 20px">
-        <div class="col-md-9">
-            <h4>Annual Porcurement Plan</h4>
+
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-12" style="text-align: center;">
+            <h2>
+                <%=departmentdesc %> Department
+            </h2>
         </div>
-
-
-
-
-
-
-
-
     </div>
-
-
-
     <div class="row">
-
-
-
-        <div class="col-md-4" style="background-color:beige; border: black;">
-
-            <form action="/procapp" method="get">
-                <label for="password" class="sr-only mt-md-3">
-                    <h6>Department</h6>
-                </label>
-                <select class="form-control" name="departmentprocapp" id="pet-select" onchange="this.form.submit()">
-                    <option value="">---select department-- </option>
-                    <% departments.forEach(function(department){ %>
-                        <option value="<%=department._id %>" <%=departmentId==department._id? "selected" : "" %>>
-
-                            <%= department.description %>
-
-                        </option>
-
-
-                        <% })%>
-                </select>
-            </form>
-
-            <div style="padding-top: 10px;">
-                <H5> Status</H5>
-                <% if (status!=null){ %>
-                    <Table style="width:auto; background-color: aliceblue;">
-
-                        <th style="background-color: beige;">
-
-                        <td style="background-color: beige; text-align: center;">
-                            <label style="font-weight:600; ;">Assigned </label>
-                        </td>
-                        <td style="background-color: beige; text-align: center;">
-                            <label style="font-weight:600;">Date</label>
-                        </td>
-
-
-                        </th>
-
-                        <tr>
-                            <td style="background-color: beige;">
-                                <input type="checkbox" onclick="return false;" class="colored-checkbox"
-                                    <%=status.submittedPR==true? "checked" : "" %>>
-                                <label for="vehicle1">Submitted</label>
-                            </td style="background-color: beige;">
-                            <td style="background-color: beige;">
-                                <label for="vehicle1">
-                                    <%= status.submittedPrBy %>
-                                </label>
-                            </td>
-                            <td style="background-color: beige;">
-                                <label for="vehicle1">
-                                    <%= (status.submittedPrDate) %>
-                                </label>
-                            </td>
-
-
-                        </tr>
-
-
-                        <tr>
-                            <td style="background-color: beige;">
-                                <input type="checkbox" onclick="return false;" class="colored-checkbox"
-                                    <%=status.bidding==true? "checked" : "" %>>
-                                <label for="vehicle1">Bidding</label>
-                            </td>
-                            <td style="background-color: beige;">
-                                <label for="vehicle1">
-                                    <%= status.biddingBy %>
-                                </label>
-                            </td>
-                            <td style="background-color: beige;">
-                                <label for="vehicle1">
-                                    <%= (status.biddingDate) %>
-                                </label>
-                            </td>
-
-
-                        </tr>
-
-                        <tr>
-                            <td style="background-color: beige;">
-                                <input type="checkbox" onclick="return false;" class="colored-checkbox"
-                                    <%=status.purchased==true? "checked" : "" %>>
-                                <label for="vehicle1">Purchased</label>
-                            </td>
-                            <td style="background-color: beige;">
-                                <label for="vehicle1">
-                                    <%= status.purchasedBy %>
-                                </label>
-                            </td>
-                            <td style="background-color: beige;">
-                                <label for="vehicle1">
-                                    <%= (status.purhasedDate) %>
-                                </label>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <td style="background-color: beige;">
-                                <input type="checkbox" onclick="return false;" class="colored-checkbox"
-                                    <%=status.accepted==true? "checked" : "" %>>
-                                <label for="vehicle1">Accepted</label>
-                            </td>
-                            <td style="background-color: beige;">
-                                <label for="vehicle1">
-                                    <%= status.acceptedBy %>
-                                </label>
-                            </td>
-                            <td style="background-color: beige;">
-                                <label for="vehicle1">
-                                    <%= (status.acceptedDate) %>
-                                </label>
-                            </td>
-
-
-                        </tr>
-
-                    </Table>
-
-                    <% }%>
+        <div class="col-md-5">
+            <div class="row" style="padding-top: 10px">
+                <div class="col-md-6">
+                    <h5>Search </h5>
+                </div>
             </div>
 
 
+            <input type="text" id="searchBox" placeholder="Search item..." <%=isAlreadySubmitted!=null? "disabled" : ""
+                %> />
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <!-- <th>Item Code</th> -->
+                        <th style="background-color: aqua;">Description</th>
+                        <th style="background-color: aqua;"> Price</th>
+                        <th style="background-color: aqua;">Unit </th>
+                        <th style="background-color: aqua;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="results"></tbody>
+            </table>
+       
+
+  <% if (status!=null){ %>
+        <div style="padding-top: 10px;">
+            status
+          
+                <Table style="width:auto; background-color: aliceblue;">
+
+                    <th style="background-color: beige;">
+
+                    <td style="background-color: beige; text-align: center;">
+                        <label style="font-weight:600; ;">Assigned </label>
+                    </td>
+                    <td style="background-color: beige; text-align: center;">
+                        <label style="font-weight:600;">Date</label>
+                    </td>
+
+
+                    </th>
+
+                    <tr>
+                        <td style="background-color: beige;">
+                            <input type="checkbox" onclick="return false;" class="colored-checkbox"
+                                <%=status.submittedPR==true? "checked" : "" %>>
+                            <label for="vehicle1">Submitted</label>
+                        </td style="background-color: beige;">
+                        <td style="background-color: beige;">
+                            <label for="vehicle1">
+                                <%= status.submittedPrBy %>
+                            </label>
+                        </td>
+                        <td style="background-color: beige;">
+                            <label for="vehicle1">
+                                <%= (status.submittedPrDate) %>
+                            </label>
+                        </td>
+
+
+                    </tr>
+
+
+                    <tr>
+                        <td style="background-color: beige;">
+                            <input type="checkbox" onclick="return false;" class="colored-checkbox"
+                                <%=status.bidding==true? "checked" : "" %>>
+                            <label for="vehicle1">Bidding</label>
+                        </td>
+                        <td style="background-color: beige;">
+                            <label for="vehicle1">
+                                <%= status.biddingBy %>
+                            </label>
+                        </td>
+                        <td style="background-color: beige;">
+                            <label for="vehicle1">
+                                <%= (status.biddingDate) %>
+                            </label>
+                        </td>
+
+
+                    </tr>
+
+                    <tr>
+                        <td style="background-color: beige;">
+                            <input type="checkbox" onclick="return false;" class="colored-checkbox"
+                                <%=status.purchased==true? "checked" : "" %>>
+                            <label for="vehicle1">Purchased</label>
+                        </td>
+                        <td style="background-color: beige;">
+                            <label for="vehicle1">
+                                <%= status.purchasedBy %>
+                            </label>
+                        </td>
+                        <td style="background-color: beige;">
+                            <label for="vehicle1">
+                                <%= (status.purhasedDate) %>
+                            </label>
+                        </td>
+
+
+                    </tr>
+                    <tr>
+                        <td style="background-color: beige;">
+                            <input type="checkbox" onclick="return false;" class="colored-checkbox"
+                                <%=status.accepted==true? "checked" : "" %>>
+                            <label for="vehicle1">Accepted</label>
+                        </td>
+                        <td style="background-color: beige;">
+                            <label for="vehicle1">
+                                <%= status.acceptedBy %>
+                            </label>
+                        </td>
+                        <td style="background-color: beige;">
+                            <label for="vehicle1">
+                                <%= (status.acceptedDate) %>
+                            </label>
+                        </td>
+
+
+                    </tr>
+
+                </Table>
+
+              
 
         </div>
+          <% }%>
+ </div>
 
 
 
-        <div class="col-md-8" style="background-color:azure; ">
+
+
+
+        <div class="col-md-7">
+
 
             <div class="row" style="padding-top: 10px">
                 <div class="col-md-8">
@@ -210,6 +208,11 @@
                                     data-bs-target="#editModal">
                                     edit
                                 </button>
+
+
+
+
+
                                 <button class="btn btn-danger btn-sm deleteBtnPR"
                                     data-id="<%= ppmpPurchaseRequest._id  %>"
                                     data-name="<%= ppmpPurchaseRequest.generalDescName %>" data-bs-toggle="modal"
@@ -221,52 +224,41 @@
                         <% }) %>
                 </tbody>
             </table>
-
-
-
-
             <div style="text-align: center;">
                 <% if (currentPage> 1) { %>
-                    <a href="/procApp/?search=<%= search %>&page=<%= currentPage - 1 %>">⬅
+                    <a href="/ppmpPR/?search=<%= search %>&page=<%= currentPage - 1 %>">⬅
                         Prev</a>
                     <% } %>
 
                         Page <%= currentPage %> of <%= totalPages %>
 
                                 <% if (currentPage < totalPages) { %>
-                                    <a href="/procApp/?search=<%= search %>&page=<%= currentPage + 1 %>">Next
+                                    <a href="/ppmpPR/?search=<%= search %>&page=<%= currentPage + 1 %>">Next
                                         ➡</a>
                                     <% } %>
             </div>
-
             <div class="row" style="text-align:center; padding-top: 30px;">
                 <div class="col-md-6">
-                    <form method="POST" action="/procApp/bidItem">
-                        <button class="btn btn-primary" <%=isAlreadyBidding!=null? "disabled" : "" %>>Bid Item</button>
+                    <form method="POST" action="/ppmpPR/submitPR">
+                        <button class="btn btn-primary" <%=isAlreadySubmitted!=null? "disabled" : "" %> >Submit Purchase
+                            Request</button>
                         <input type="hidden" id="departmentId" name="hiddepartmentId" value="<%= departmentId %>">
                         <input type="hidden" id="personId" name="hidpersonId" value="<%= personId %>">
-                        <input type="hidden" id="PrHdrBid" name="hidPrHdrBid" value="<%= statusPrHdr %>">
+                        <input type="hidden" id="itemCode" name="itemCode">
                     </form>
                 </div>
                 <div class="col-md-6">
-                    <form method="POST" action="/procApp/purchaseItem">
-                        <button class="btn btn-primary" <%=isAlreadyAccepted!=null? "disabled" : "" %> >Purchase
+                    <form method="POST" action="/ppmpPR/acceptItem">
+                        <button class="btn btn-primary" <%=isAlreadyAccepted!=null? "disabled" : "" %> >Accept
                             Item</button>
                         <input type="hidden" id="departmentId" name="hiddepartmentIdAcceptItem"
                             value="<%= departmentId %>">
                         <input type="hidden" id="personId" name="hidpersonIdAcceptItem" value="<%= personId %>">
-                        <input type="hidden" id="PrHdrBid" name="hidPrHdrBid" value="<%= statusPrHdr %>">
+
                     </form>
                 </div>
             </div>
-
-
         </div>
-
-
-
-    </div>
-
 
 
     </div>
@@ -307,7 +299,7 @@
                     <div class="modal-footer">
                         <input type="hidden" id="departmentId" name="hiddepartmentId" value="<%= departmentId %>">
                         <input type="hidden" id="personId" name="hidpersonId" value="<%= personId %>">
-                        <input type="hidden" id="itemCode" name="itemCode">
+                        <input type="hidden" id="itemCodePR" name="itemCodePR">
                         <button class="btn btn-primary">Add PR</button>
                     </div>
                 </div>

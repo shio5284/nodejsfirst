@@ -13,6 +13,7 @@
   <link href="/uploads\css\bootstrap.css" rel="stylesheet">
    <link href="/uploads\css\style.css" rel="stylesheet">
   <script src="/uploads\js\ppmpcl.js"></script> 
+  <script src="/uploads\js\ppmpItemSearch.js"></script> 
   <script src="/uploads\js\bootstrap.js"></script> 
    <style>
         table { border-collapse: collapse; width: 100%; }
@@ -26,32 +27,38 @@
   </head>
 
 <body>
-<div class="container">
+<div class="container" >
 
 
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary"  >
+    <div class="container-fluid" style="background-color: rgb(47, 197, 127);">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" href="#"><H6 >LGU TANTANGAN PROCUREMENT SYSTEM</H6></a>
+        <a class="navbar-brand" href="#" ><H6 style="padding-top: 10px;" >LGU TANTANGAN PROCUREMENT SYSTEM</H6></a>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
          <!--  <li class="nav-item"><a class="nav-link active" aria-current="page" href="/home">Home</a></li> 
           <li class="nav-item"><a class="nav-link" href="/about">About</a> </li> -->
        <% if (currentUser!=null){%>
         <!-- <li class="nav-item"><a class="nav-link" href="/posts">My Posts</a></li> -->
-            <li class="nav-item"><a class="nav-link" href="#">Welcome <%=currentUser.username%>!</a></li>
+            <li style="padding-top: 9px; padding-right: 4px ; font-weight: 600; color: rgb(7, 6, 6);">Welcome <%=currentUser.username%>!</li>
             <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
         <%}%>
         <% if (currentUser!=null){%>
-        <li class="nav-item"><a class="nav-link" href="/personalInfo">Personal information</a></li>
+       <li class="nav-item"><a class="nav-link"  href="/personalInfo">Personal information</a></li>
+           <% if (currentUser.userType=="BAC"){%>
         <li class="nav-item"><a class="nav-link" href="/ppmpItem"> Items</a></li>
-         <li class="nav-item"><a class="nav-link" href="/ppmp"> PPMP</a></li>
-         <li class="nav-item"><a class="nav-link" href="/procapp"> APP</a></li>
+        <li class="nav-item"><a class="nav-link" href="/procapp"> Annual Procurement Plan</a></li>
+      
+         <%}%>
+         <% if (currentUser.userType=="End User"){%>
+        <li class="nav-item"><a class="nav-link" href="/ppmpPr"> Puchase Request</a></li>
+         <!-- <li class="nav-item"><a class="nav-link" href="/ppmp"> PPMP</a></li> -->
+         <%}%>
         <%}%>
         <% if (currentUser ==null){%>
-          <li class="nav-item"><a class="nav-link" href="/login">Log In</a> </li>
+          <li class="nav-item"><a class="nav-link" active href="/login">Log In</a> </li>
           <li class="nav-item"><a class="nav-link" href="/signup">Register</a> </li>
           <%}%>
          

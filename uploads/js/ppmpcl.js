@@ -1,5 +1,25 @@
 
 
+document.addEventListener('DOMContentLoaded', () => {
+  const links = document.querySelectorAll('.nav-link');
+
+  const activeHref = localStorage.getItem('activeLink');
+
+  links.forEach(link => {
+    if (link.href === activeHref) {
+      link.classList.add('active');
+    }
+
+    link.addEventListener('click', function() {
+      localStorage.setItem('activeLink', this.href);
+
+      links.forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+});
+
+
 /* function myFunction() {
   document.getElementById("demo").style.color = "red";
 } */
@@ -20,24 +40,30 @@ document.addEventListener("DOMContentLoaded", function () {
   // EDIT BUTTON CLICK
   document.addEventListener("click", function (e) {
 
-
-
-         if (e.target.classList.contains("editBtnitem")) { 
+    if (e.target.classList.contains("editBtnitem")) {
       const btn = e.target;
-      document.getElementById("editForm").action ="/ppmpItem/edit/" + btn.dataset.id + "?_method=PUT";
+      document.getElementById("editForm").action = "/ppmpItem/edit/" + btn.dataset.id + "?_method=PUT";
       document.getElementById("editgeneralDescName").value = btn.dataset.generaldescription || "";
       document.getElementById("editprice").value = btn.dataset.unitprice || "";
       document.getElementById("editunitOfMeasurement").value = btn.dataset.unitmeasurement || "";
-    document.getElementById("editremarks").value = btn.dataset.remarks || "";
-     document.getElementById("editmodeProcurement").value = btn.dataset.modeprocurement || "";
-      
+      document.getElementById("editremarks").value = btn.dataset.remarks || "";
+      document.getElementById("editmodeProcurement").value = btn.dataset.modeprocurement || "";
+
     }
 
-    if (e.target.classList.contains("editBtn")) {
-
+     if (e.target.classList.contains("editBtnPR")) {
       const btn = e.target;
+      document.getElementById("editForm").action = "/ppmpPR/edit/" + btn.dataset.id + "?_method=PUT";
+      document.getElementById("editgeneralDescName").value = btn.dataset.generaldescription || "";
+      document.getElementById("editQuantity").value = btn.dataset.quantity || "";
+  
 
-      document.getElementById("editForm").action ="/ppmp/edit/" + btn.dataset.id + "?_method=PUT";
+    }
+    
+
+    if (e.target.classList.contains("editBtn")) {
+      const btn = e.target;
+      document.getElementById("editForm").action = "/ppmp/edit/" + btn.dataset.id + "?_method=PUT";
       document.getElementById("editgeneralDescName").value = btn.dataset.generaldescname || "";
       document.getElementById("editQuantity").value = btn.dataset.quantity || "";
       document.getElementById("editunitOfMeasurement").value = btn.dataset.unitmeasurement || "";
@@ -55,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (e.target.classList.contains("editBtnapp")) {
       const btn = e.target;
-      document.getElementById("editForm").action ="/procApp/edit/" + btn.dataset.id + "?_method=PUT";
+      document.getElementById("editForm").action = "/procApp/edit/" + btn.dataset.id + "?_method=PUT";
       document.getElementById("editgeneralDescName").value = btn.dataset.generaldescnameapp || "";
       document.getElementById("editQuantity").value = btn.dataset.quantityapp || "";
       document.getElementById("editunitOfMeasurement").value = btn.dataset.unitmeasurementapp || "";
@@ -74,21 +100,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    // DELETE BUTTON CLICK
-    if (e.target.classList.contains("deleteBtn")) {
-
-      const btn = e.target;
-
-      document.getElementById("deleteForm").action =
-        "/ppmpItem/delete/" + btn.dataset.id;
-
-      document.getElementById("deleteName").innerText =
-      btn.dataset.name || "";
-    }
 
 
 
-    if (e.target.classList.contains("deleteBtn")) {
+    // DELETE BUTTON CLICK FOR PPMPItEM
+    if (e.target.classList.contains("deleteBtnItem")) {
 
       const btn = e.target;
 
@@ -99,12 +115,36 @@ document.addEventListener("DOMContentLoaded", function () {
         btn.dataset.name || "";
     }
 
-  });
+
+
+     if (e.target.classList.contains("deleteBtn")) {
+      const btn = e.target;
+      document.getElementById("deleteForm").action =
+        "/ppmp/delete/" + btn.dataset.id;
+
+      document.getElementById("deleteName").innerText =
+        btn.dataset.name || "";
+    }
+
+
+if (e.target.classList.contains("deleteBtnPR")) {
+
+      const btn = e.target;      
+      document.getElementById("deleteFormPR").action =
+        "/ppmpPR/delete/" + btn.dataset.id;
+
+      document.getElementById("deleteNamePR").innerText =
+        btn.dataset.name || "";
+
+       
+    }
+
+ 
+  }); 
 
 });
 
 
- 
 
 function toggleExclude(id) {
   fetch(`/items/toggle/${id}`, {

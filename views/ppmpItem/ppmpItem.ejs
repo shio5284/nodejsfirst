@@ -73,9 +73,9 @@ remarks
 
 
 
-                        <button class="btn btn-danger btn-sm deleteBtn" data-id="<%= ppmpItem._id  %>"
+                        <button class="btn btn-danger btn-sm deleteBtnItem" data-id="<%= ppmpItem._id  %>"
                                     data-name="<%= ppmpItem.generalDescription %>" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal">
+                                    data-bs-target="#deleteModalItem">
                                     Delete
                                 </button>
                     </td>
@@ -87,7 +87,7 @@ remarks
 
 
 
-    <div>
+    <div style="text-align: center;">
         <% if (currentPage> 1) { %>
             <a href="/ppmpItem/?search=<%= search %>&page=<%= currentPage - 1 %>">⬅
                 Prev</a>
@@ -193,17 +193,9 @@ remarks
 
 
 
-
-
-
-
-
-
-
-
-    <div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal fade" id="deleteModalItem" tabindex="-1">
         <div class="modal-dialog">
-            <form id="deleteForm" method="POST" class="modal-content">
+            <form id="deleteFormItem" method="POST" class="modal-content">
 
                 <div class="modal-header">
                     <h5 class="modal-title">Confirm Delete</h5>
@@ -211,7 +203,7 @@ remarks
                 </div>
 
                 <div class="modal-body">
-                    Are you sure you want to delete Item <strong id="deleteName"></strong>?
+                    Are you sure you want to delete Item <strong id="deleteNameItem"></strong>?
                 </div>
 
                 <div class="modal-footer">
@@ -226,8 +218,8 @@ remarks
 
     <div class="modal fade" id="createModal">
         <div class="modal-dialog">
-            <form method="POST" action="/ppmpItem/createPpmpItem" class="modal-content">
-                <div class="modal-header" style="background-color:blue">
+            <form method="POST" action="/ppmpItem/createPpmpItem" class="modal-content" style="background-color: aquamarine;">
+                <div class="modal-header" >
                     <h5>Add PPMP Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -238,7 +230,7 @@ remarks
                             <input type="text" class="form-control" name="generalDescName"
                                 placeholder="General Description of PPMP" required>
                         </div>
-                              <div class="form-group col-md-3">
+                              <div class="form-group col-md-4">
                             <label for="bday" class="sr-only mt-md-3">Procurement Mode</label>
                             <select class="form-control" name="procMode" id="editprocurementMode" required>
                                 <option value=""> </option>

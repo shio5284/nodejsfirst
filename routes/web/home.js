@@ -27,8 +27,7 @@ router.get("/about",function(req, res){
     res.render("Home/about");
     });
 
-
-    
+ 
 router.get("/login",function(req, res){
       
         res.render("Home/login");
@@ -65,6 +64,9 @@ router.post("/signup",function(req,res,next)
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
+    var userType= req.body.userType;
+    
+
             
                    
     User.findOne({ email: email})
@@ -78,11 +80,11 @@ router.post("/signup",function(req,res,next)
                       username:username,
                       password:password,
                       email:email,
-                      personId:null
+                      userType:userType
                        });
                         
 
-                       async function f() {
+async function f() {
 
   try {
     let response = await newUser.save()

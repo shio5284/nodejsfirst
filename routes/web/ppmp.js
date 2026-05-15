@@ -541,15 +541,12 @@ console.log("don saving");
   res.redirect("/ppmp");
 })
  
- 
+  
 
  
 router.post("/delete/:ppmpDtlId", async function(req, res){
-
-  console.log(req.params.ppmpDtlId);
-
- //await PpmpDtl.findByIdAndDelete(req.params.ppmpDtlId);
-res.redirect("/ppmp/"+ req.body.hiddenTypedelete+","+ req.body.hiddenppmphdrIddelete);
+ await PpmpDtl.findByIdAndDelete(req.params.ppmpDtlId);
+res.redirect("/ppmp");
   }) 
 
     

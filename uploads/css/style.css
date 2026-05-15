@@ -19,3 +19,14 @@ table { width: 100%; border-collapse: collapse; }
     .excluded { background-color: #f5c6cb; }
     .pagination a { margin: 0 5px; }
 
+.colored-checkbox {
+  accent-color: green; /* modern browsers */
+}
+
+
+
+.nav-link.active {
+  color: #fff !important;
+  background-color: green;
+  border-radius: 5px;
+}
