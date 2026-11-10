@@ -15,16 +15,15 @@ router.use(function(req,res,next ){
 });
 router.use("/",require("./home"));
 router.use("/posts",require("./post"));
-router.use("/personalInfo",require("./personalInfo"));
-router.use("/ppmp",require("./ppmp"));
-router.use("/ppmpDtl",require("./ppmpdtl"));
+router.use("/main",require("./main"));
+//router.use("/personalInfo",require("./personalInfo"));
+//router.use("/ppmp",require("./ppmp"));
+//router.use("/ppmpDtl",require("./ppmpdtl"));
 router.use("/procapp",require("./procapp"));
-router.use("/ppmpItem",require("./ppmpItem"));
-router.use("/ppmpPr",require("./ppmpPr"));
+//router.use("/ppmpItem",require("./ppmpItem"));
+//router.use("/ppmpPr",require("./ppmpPr"));
 //to do add in  error and info
 
-/* router.get("/",function(req, res){
-res.render("Home/index");
-});  */
+
   
 module.exports = router;

@@ -1,0 +1,73 @@
+<%- include('../_partial/_header.ejs') %>
+
+
+<div class="row">
+    <div class="col-md-6">
+             My Post
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <a href="/posts/add" type="button" class="btn btn-lg btn-primary btn=-block">New Post</a>
+    </div>
+</div>
+
+
+
+    <h1>Car Buy and Sell</h1>
+
+    <form action="/" method="GET">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search brand, model, or location"
+            value="<%= search %>"
+        >
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Available Cars</h2>
+
+    <div class="car-container">
+        <% cars.forEach(car => { %>
+
+            <div class="car-card">
+
+                <img
+                    src="<%= car.imageUrl %>"
+                    alt="<%= car.title %>"
+                    onerror="this.src='https://placehold.co/400x250?text=Car+Image'"
+                >
+
+                <div class="car-info">
+                    <h3><%= car.title %></h3>
+
+                    <p class="price">
+                        ₱<%= Number(car.price).toLocaleString("en-PH") %>
+                    </p>
+
+                    <p>Year: <%= car.year %></p>
+                    <p>Location: <%= car.location %></p>
+
+                    <a href="/cars/<%= car._id %>">
+                        View Details
+                    </a>
+                </div>
+
+            </div>
+
+        <% }); %>
+    </div>
+
+    <% if (cars.length === 0) { %>
+        <p>No cars found. Try another search.</p>
+    <% } %>
+
+
+
+
+
+<!--         List  of all posts -->
+
+<%-include('../_partial/_footer.ejs') -%>

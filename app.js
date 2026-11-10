@@ -1,7 +1,8 @@
 var express = require ("express");
 var path = require("path");
 //var routes = require ("./routes")
-
+//import {MongoClient} from "mongodb";
+//var MongoClient = require("mongoClient");
 var mongoose = require('mongoose');
 var cookieParser = require("cookie-parser");
 var passport = require ("passport");
@@ -12,20 +13,25 @@ var bodyParser = require("body-parser");
 var params = require ("./params/params");
 var setUpPassport = require("./setuppassport")
 var app = express();
-//console.log(params);
-//mongoose.connect(params.DATABASECONNECTION)
+//
+//conncet to local with db name already exist in param
+
+
  mongoose.connect(params.DATABASECONNECTION).
-  catch(error => handleError(error)); 
+  catch(error => handleError(error));  
 
- setUpPassport();
 
-/*   async
+  
 
-  try {
- await mongoose.connect(params.DATABASECONNECTION);
-} catch (error) {
-handleError(error);
-} */
+
+setUpPassport();
+
+
+
+
+
+
+
 
 
 //mongoose.connect("mongodb+srv://franciscodelacruz002:p2ssw0rdmon@cluster0.sckh7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")

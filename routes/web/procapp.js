@@ -3,7 +3,7 @@ var multer = require("multer");
 var crypto = require("crypto");
 var path = require("path");
 var ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
-var Department = require("../../models/department");
+//var Department = require("../../models/department");
 
 var Person = require("../../models/person");
 var router = express.Router();
@@ -152,48 +152,6 @@ if (status!=null){
   });
 });
 
-/* router.post("/createPR", async function (req, res) {
-
-try {
-  const existing = await PpmpPurchaseRequest.findOne({
-    ppmpItemId: req.body.itemCode,
-    departmentId: req.body.hiddepartmentId,
-    fiscalYear: 2027,
-    status: "PR"
-  });
-
-  if (existing) {
-  
-console.log("duplictae");
-    req.flash("info", " duplicate PR!Pls Use Edit the Quantity .");
-    return res.redirect("/ppmpPr");
-  }
-
-  var newPpmpPurchaseRequest = new PpmpPurchaseRequest({
-    ppmpItemId: req.body.itemCode,
-    departmentId: req.body.hiddepartmentId,
-    fiscalYear: 2027,
-    generalDescName: req.body.generalDescName,
-    quantity: req.body.quantity,
-    price: req.body.pricePerUnit,
-    unit: req.body.unitofMeasurement,
-    status: "PR",
-    isInclude: true,
-    remarks: "",
-    approvedBy: null,
-    preparedBy: req.body.hidpersonId
-  });
-console.log(newPpmpPurchaseRequest);
- await newPpmpPurchaseRequest.save();
-  req.flash("info", "Purchase Sucessfully Saved.");
-
-} catch (err) {
-  req.flash("error", err);
-}
-
-  res.redirect("/ppmpPr");
-
-}) */
 
 
 
